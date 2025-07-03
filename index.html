@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Boost Media</title>
+  <title>Boost Media - Loja</title>
   <link rel="icon" href="https://img.icons8.com/color/96/netflix.png" type="image/png" />
   <style>
     body {
@@ -74,13 +74,6 @@
     <input type="email" id="email" placeholder="Email" />
     <input type="password" id="password" placeholder="Senha" />
     <button onclick="login()">Entrar</button>
-    <p style="margin-top:10px; cursor:pointer; color:#a5f3fc;" onclick="showRegister()">Não tem conta? Cadastre-se</p>
-  </div>  <div id="register" class="container hidden">
-    <h2>Cadastro</h2>
-    <input type="email" id="regEmail" placeholder="Email" />
-    <input type="password" id="regPassword" placeholder="Senha" />
-    <button onclick="register()">Cadastrar</button>
-    <p style="margin-top:10px; cursor:pointer; color:#a5f3fc;" onclick="showLogin()">Já tem conta? Entrar</p>
   </div>  <div id="loja" class="container hidden">
     <h2>Produtos</h2>
     <div id="produtos"></div>
@@ -93,7 +86,7 @@
       <a id="checkout" target="_blank">Finalizar no WhatsApp</a>
       <button style="margin-top:10px; background:#ef4444;" onclick="logout()">Sair</button>
     </div>
-  </div>  <!-- Firebase SDK -->  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>  <script>
+  </div>  <!-- Firebase SDK -->  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyDwBokVIhJ2QJ1c8CnPuI60YnfeTdlCoEo",
       authDomain: "boostmidia-admin.firebaseapp.com",
@@ -102,20 +95,19 @@
       messagingSenderId: "276784965090",
       appId: "1:276784965090:web:876665634014edc2e585bb"
     };
-    firebase.initializeApp(firebaseConfig);
 
+    firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
+    const db = firebase.firestore();
 
     const loginDiv = document.getElementById("login");
-    const regDiv = document.getElementById("register");
     const lojaDiv = document.getElementById("loja");
 
     auth.onAuthStateChanged(user => {
       if (user) {
         loginDiv.classList.add("hidden");
-        regDiv.classList.add("hidden");
         lojaDiv.classList.remove("hidden");
-        renderProdutos();
+        carregarProdutos();
       } else {
         loginDiv.classList.remove("hidden");
         lojaDiv.classList.add("hidden");
@@ -125,58 +117,36 @@
     function login() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-      auth.signInWithEmailAndPassword(email, password)
-        .catch(e => alert("Erro: " + e.message));
-    }
-
-    function register() {
-      const email = document.getElementById("regEmail").value;
-      const password = document.getElementById("regPassword").value;
-      auth.createUserWithEmailAndPassword(email, password)
-        .catch(e => alert("Erro: " + e.message));
+      auth.signInWithEmailAndPassword(email, password).catch(e => alert("Erro: " + e.message));
     }
 
     function logout() {
       auth.signOut();
     }
 
-    function showRegister() {
-      loginDiv.classList.add("hidden");
-      regDiv.classList.remove("hidden");
-    }
-
-    function showLogin() {
-      loginDiv.classList.remove("hidden");
-      regDiv.classList.add("hidden");
-    }
-
-    // Loja e carrinho
-    const produtos = [
-      { nome: "Netflix", preco: 20.00, img: "https://img.icons8.com/color/96/netflix.png" },
-      { nome: "YouTube Premium", preco: 15.00, img: "https://img.icons8.com/color/96/youtube-premium.png" },
-      { nome: "Prime Video", preco: 10.00, img: "https://img.icons8.com/color/96/amazon-prime-video.png" }
-    ];
-
     const carrinho = [];
     let desconto = 0;
 
-    function renderProdutos() {
+    function carregarProdutos() {
       const div = document.getElementById("produtos");
       div.innerHTML = "";
-      produtos.forEach((p, i) => {
-        div.innerHTML += `
-          <div class="card">
-            <img src="${p.img}" />
-            <h3>${p.nome}</h3>
-            <p>R$ ${p.preco.toFixed(2)}</p>
-            <button class="btn-add" onclick="adicionar(${i})">Adicionar</button>
-          </div>
-        `;
+      db.collection("produtos").get().then(snapshot => {
+        snapshot.forEach(doc => {
+          const p = doc.data();
+          div.innerHTML += `
+            <div class="card">
+              <img src="${p.img}" />
+              <h3>${p.nome}</h3>
+              <p>R$ ${parseFloat(p.preco).toFixed(2)}</p>
+              <button class="btn-add" onclick='adicionar(${JSON.stringify(p)})'>Adicionar</button>
+            </div>
+          `;
+        });
       });
     }
 
-    function adicionar(i) {
-      carrinho.push(produtos[i]);
+    function adicionar(produto) {
+      carrinho.push(produto);
       atualizarCarrinho();
     }
 
@@ -198,8 +168,8 @@
       lista.innerHTML = "";
       let total = 0;
       carrinho.forEach(item => {
-        lista.innerHTML += `<li>${item.nome} - R$ ${item.preco.toFixed(2)}</li>`;
-        total += item.preco;
+        lista.innerHTML += `<li>${item.nome} - R$ ${parseFloat(item.preco).toFixed(2)}</li>`;
+        total += parseFloat(item.preco);
       });
       total = total - (total * desconto);
       totalText.innerText = `Total: R$ ${total.toFixed(2)}`;
