@@ -1,282 +1,365 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Boost Media - Login e Loja</title>
-<style>
-  body { font-family: Arial, sans-serif; background: #111827; color: white; margin:0; padding:0;}
-  section { max-width: 900px; margin: 40px auto; padding: 20px; background: #1e293b; border-radius: 15px;}
-  input, button { padding: 10px; font-size: 1em; border-radius: 8px; border: none; margin: 10px 0; width: 100%;}
-  button { background: #4f46e5; color: white; cursor: pointer; font-weight: bold; }
-  button:hover { background: #4338ca; }
-  .hidden { display: none; }
-  .product {
-    background: #111827;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .product-info {
-    display: flex;
-    align-items: center;
-  }
-  .product img {
-    height: 50px;
-    margin-right: 15px;
-  }
-  .product button {
-    width: auto;
-    margin-left: 10px;
-    padding: 8px 20px;
-  }
-  #cart-items { margin-top: 15px; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Boost Media - Login & Loja</title>
+  <link rel="icon" href="https://img.icons8.com/color/96/netflix.png" type="image/png" />
+  <style>
+    body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #111827; color: #f1f1f1; }
+    header { background: #4f46e5; padding: 30px 20px; text-align: center; color: white; }
+    header h1 { margin: 0; font-size: 2.5em; }
+    header p { margin-top: 10px; font-size: 1.1em; }
+
+    nav { background: #1f2937; padding: 10px; text-align: center; }
+    nav a { color: #a5f3fc; margin: 0 15px; text-decoration: none; font-weight: bold; cursor: pointer; }
+
+    section { padding: 30px 20px; max-width: 1000px; margin: auto; }
+    h2 { color: #a5f3fc; text-align: center; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 20px; }
+    .card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 15px #4f46e5;
+    }
+    .card img { height: 60px; margin-bottom: 15px; }
+    .card h3 { margin: 10px 0 5px; color: #fcd34d; }
+    .card p { font-size: 0.95em; margin-bottom: 10px; }
+    .btn {
+      background: #10b981;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.3s ease;
+    }
+    .btn:hover {
+      background: #059669;
+    }
+
+    footer {
+      background: #0f172a;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #94a3b8;
+      margin-top: 40px;
+    }
+
+    .faq-item {
+      background: #1e293b;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 10px;
+    }
+
+    .whatsapp-float {
+      position: fixed;
+      width: 60px;
+      height: 60px;
+      bottom: 20px;
+      right: 20px;
+      background-color: #25d366;
+      color: #fff;
+      border-radius: 50px;
+      text-align: center;
+      font-size: 30px;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .whatsapp-float img {
+      margin-top: 14px;
+      width: 30px;
+    }
+
+    /* Login e cadastro */
+    #loginContainer, #registerContainer {
+      max-width: 400px;
+      margin: 40px auto;
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #4f46e5;
+      display: none;
+      flex-direction: column;
+    }
+    #loginContainer.active, #registerContainer.active {
+      display: flex;
+    }
+    input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border-radius: 8px;
+      border: none;
+      font-size: 1em;
+    }
+    button.loginBtn {
+      background: #4f46e5;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1em;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.3s ease;
+    }
+    button.loginBtn:hover {
+      background: #3730a3;
+    }
+    .message {
+      color: #f87171;
+      margin-top: 8px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .linkToggle {
+      margin-top: 10px;
+      color: #a5f3fc;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* Painel admin e loja */
+    #adminPanel {
+      display: none;
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    #adminPanel.active {
+      display: block;
+    }
+    #userEmail {
+      font-weight: bold;
+      color: #a5f3fc;
+    }
+    #logoutBtn {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      float: right;
+      margin-top: -50px;
+      user-select: none;
+      transition: background 0.3s ease;
+    }
+    #logoutBtn:hover {
+      background: #b91c1c;
+    }
+
+    /* Carrinho simples */
+    #cart {
+      background: #1e293b;
+      padding: 15px;
+      border-radius: 10px;
+      max-width: 300px;
+      position: fixed;
+      right: 20px;
+      top: 100px;
+      color: #f1f1f1;
+      font-size: 0.95em;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    #cart h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      text-align: center;
+      color: #a5f3fc;
+    }
+    #cartItems {
+      max-height: 200px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+    }
+    #cartItems div {
+      margin-bottom: 8px;
+      border-bottom: 1px solid #374151;
+      padding-bottom: 4px;
+    }
+    #applyCouponInput {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      border: none;
+      font-size: 1em;
+    }
+    #applyCouponBtn {
+      width: 100%;
+      background: #4f46e5;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.3s ease;
+    }
+    #applyCouponBtn:hover {
+      background: #3730a3;
+    }
+    #cartTotal {
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    #checkoutBtn {
+      width: 100%;
+      background: #10b981;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.3s ease;
+    }
+    #checkoutBtn:hover {
+      background: #059669;
+    }
+  </style>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
+<header>
+  <h1>Boost Media</h1>
+  <p>Seu portal de contas premium com entrega rápida e preço justo!</p>
+</header>
+
 <!-- Login -->
-<section id="loginSection">
-  <h2>Login Boost Media</h2>
-  <input type="email" id="loginEmail" placeholder="Seu e-mail" required />
-  <input type="password" id="loginPassword" placeholder="Senha" required />
-  <button id="loginBtn">Entrar</button>
-  <p id="loginMsg" style="color:#f87171"></p>
-  <p>Não tem conta? <a href="#" id="showRegisterLink" style="color:#4f46e5; cursor:pointer;">Cadastre-se aqui</a></p>
-</section>
+<div id="loginContainer" class="active">
+  <input type="email" id="email" placeholder="Email" />
+  <input type="password" id="password" placeholder="Senha" />
+  <button id="loginBtn" class="loginBtn">Entrar</button>
+  <div class="message" id="loginMessage"></div>
+  <div class="linkToggle" id="toRegister">Não tem conta? Cadastre-se</div>
+</div>
 
 <!-- Cadastro -->
-<section id="registerSection" class="hidden">
-  <h2>Cadastro Boost Media</h2>
-  <input type="email" id="registerEmail" placeholder="Seu e-mail" required />
-  <input type="password" id="registerPassword" placeholder="Senha" required />
-  <button id="registerBtn">Cadastrar</button>
-  <p id="registerMsg" style="color:#f87171"></p>
-  <p>Já tem conta? <a href="#" id="showLoginLink" style="color:#4f46e5; cursor:pointer;">Faça login aqui</a></p>
-</section>
+<div id="registerContainer">
+  <input type="email" id="regEmail" placeholder="Email" />
+  <input type="password" id="regPassword" placeholder="Senha (mín 6 caracteres)" />
+  <button id="registerBtn" class="loginBtn">Cadastrar</button>
+  <div class="message" id="registerMessage"></div>
+  <div class="linkToggle" id="toLogin">Já tem conta? Faça login</div>
+</div>
 
-<!-- Loja -->
-<section id="shopSection" class="hidden">
-  <h2>Bem-vindo, <span id="userEmailSpan"></span>!</h2>
-  <button id="logoutBtn" style="background:#ef4444; margin-bottom:20px;">Sair</button>
+<!-- Painel Admin + Loja -->
+<div id="adminPanel">
+  <button id="logoutBtn">Sair</button>
+  <p>Bem-vindo, <span id="userEmail"></span></p>
 
-  <h3>Produtos</h3>
-  <div id="productList"></div>
+  <nav>
+    <a href="#produtos">Produtos</a> |
+    <a href="#combos">Combos</a> |
+    <a href="#faq">FAQ</a>
+  </nav>
 
+  <section id="produtos">
+    <h2>📺 Produtos Individuais</h2>
+    <div class="grid" id="productGrid">
+      <!-- Produtos gerados por JS -->
+    </div>
+  </section>
+
+  <section id="combos">
+    <h2>🔥 Combos Promocionais</h2>
+    <div class="grid" id="comboGrid">
+      <!-- Combos gerados por JS -->
+    </div>
+  </section>
+
+  <section id="faq">
+    <h2>❓ Perguntas Frequentes (FAQ)</h2>
+    <div class="faq-item"><strong>🕐 Quando recebo minha conta?</strong><br>Imediatamente após o pagamento e envio do comprovante via WhatsApp.</div>
+    <div class="faq-item"><strong>👨‍👩‍👧 Posso dividir com alguém?</strong><br>Sim! Alguns serviços são familiares, outros são individuais. Verifique na descrição.</div>
+    <div class="faq-item"><strong>💳 Quais formas de pagamento?</strong><br>Apenas PIX. Envie o comprovante para ativação.</div>
+    <div class="faq-item"><strong>📱 Suporte funciona quando?</strong><br>Segunda a sábado, das 9h às 21h.</div>
+  </section>
+</div>
+
+<!-- Carrinho -->
+<div id="cart" style="display:none;">
   <h3>Carrinho</h3>
-  <div id="cart-items">Carrinho vazio</div>
-  <p><strong>Total: R$ <span id="totalPrice">0,00</span></strong></p>
-</section>
+  <div id="cartItems"></div>
+  <input type="text" id="applyCouponInput" placeholder="Digite o cupom BOOST25" />
+  <button id="applyCouponBtn">Aplicar Cupom</button>
+  <div id="couponMessage" style="color:#f87171; margin-top: 5px; text-align:center;"></div>
+  <div id="cartTotal"></div>
+  <button id="checkoutBtn">Finalizar Compra via WhatsApp</button>
+</div>
+
+<footer>
+  <p>WhatsApp: (65) 99946-8323 • Email: boostmediapremium@gmail.com</p>
+  <p>&copy; 2025 Boost Media – Todos os direitos reservados.</p>
+</footer>
+
+<a class="whatsapp-float" href="https://wa.me/5565999468323" target="_blank">
+  <img src="https://img.icons8.com/color/48/whatsapp--v1.png" />
+</a>
 
 <script>
-  // Usuários salvos no localStorage
-  function getUsers() {
-    return JSON.parse(localStorage.getItem("boostUsers") || "[]");
-  }
-  function saveUsers(users) {
-    localStorage.setItem("boostUsers", JSON.stringify(users));
-  }
+  // Firebase config e init
+  const firebaseConfig = {
+    apiKey: "AIzaSyDwBokVIhJ2QJ1c8CnPuI60YnfeTdlCoEo",
+    authDomain: "boostmidia-admin.firebaseapp.com",
+    projectId: "boostmidia-admin",
+    storageBucket: "boostmidia-admin.appspot.com",
+    messagingSenderId: "276784965090",
+    appId: "1:276784965090:web:876665634014edc2e585bb"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
 
-  // Guardar usuário logado no localStorage
-  function setCurrentUser(email) {
-    localStorage.setItem("boostCurrentUser", email);
-  }
-  function getCurrentUser() {
-    return localStorage.getItem("boostCurrentUser");
-  }
-  function clearCurrentUser() {
-    localStorage.removeItem("boostCurrentUser");
-  }
+  // Elementos login/cadastro
+  const loginContainer = document.getElementById('loginContainer');
+  const registerContainer = document.getElementById('registerContainer');
+  const adminPanel = document.getElementById('adminPanel');
 
-  // Elementos DOM
-  const loginSection = document.getElementById("loginSection");
-  const registerSection = document.getElementById("registerSection");
-  const shopSection = document.getElementById("shopSection");
-  const loginMsg = document.getElementById("loginMsg");
-  const registerMsg = document.getElementById("registerMsg");
-  const userEmailSpan = document.getElementById("userEmailSpan");
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const loginBtn = document.getElementById('loginBtn');
+  const loginMessage = document.getElementById('loginMessage');
 
-  const loginEmail = document.getElementById("loginEmail");
-  const loginPassword = document.getElementById("loginPassword");
-  const loginBtn = document.getElementById("loginBtn");
+  const regEmailInput = document.getElementById('regEmail');
+  const regPasswordInput = document.getElementById('regPassword');
+  const registerBtn = document.getElementById('registerBtn');
+  const registerMessage = document.getElementById('registerMessage');
 
-  const registerEmail = document.getElementById("registerEmail");
-  const registerPassword = document.getElementById("registerPassword");
-  const registerBtn = document.getElementById("registerBtn");
+  const toRegister = document.getElementById('toRegister');
+  const toLogin = document.getElementById('toLogin');
 
-  const showRegisterLink = document.getElementById("showRegisterLink");
-  const showLoginLink = document.getElementById("showLoginLink");
+  const userEmailSpan = document.getElementById('userEmail');
+  const logoutBtn = document.getElementById('logoutBtn');
 
-  const logoutBtn = document.getElementById("logoutBtn");
-
-  const productList = document.getElementById("productList");
-  const cartItems = document.getElementById("cart-items");
-  const totalPriceSpan = document.getElementById("totalPrice");
-
-  // Produtos fixos com imagens e preços
+  // Produtos e combos - dados fixos
   const products = [
-    {id:1, name:"YouTube Premium", price:15, img:"https://img.icons8.com/color/48/youtube-premium.png"},
-    {id:2, name:"Netflix", price:20, img:"https://img.icons8.com/color/48/netflix.png"},
-    {id:3, name:"Prime Video", price:10, img:"https://img.icons8.com/color/48/amazon-prime-video.png"},
-    {id:4, name:"Disney+", price:12, img:"https://img.icons8.com/color/48/disney-plus.png"},
-    {id:5, name:"HBO Max", price:15, img:"https://img.icons8.com/color/48/hbo.png"},
-    {id:6, name:"Paramount+", price:10, img:"https://img.icons8.com/color/48/paramount-plus.png"},
-    {id:7, name:"Spotify Premium", price:50, img:"https://img.icons8.com/color/48/spotify.png"},
-    {id:8, name:"Youcine", price:15, img:"https://img.icons8.com/color/48/tv.png"},
-  ];
-
-  // Estado do carrinho
-  let cart = [];
-
-  // Mostrar e esconder seções
-  function showSection(section) {
-    loginSection.classList.add("hidden");
-    registerSection.classList.add("hidden");
-    shopSection.classList.add("hidden");
-    section.classList.remove("hidden");
-  }
-
-  // Renderizar produtos na loja
-  function renderProducts() {
-    productList.innerHTML = "";
-    products.forEach(p => {
-      const div = document.createElement("div");
-      div.className = "product";
-      div.innerHTML = `
-        <div class="product-info">
-          <img src="${p.img}" alt="${p.name}" />
-          <div>${p.name} - R$ ${p.price.toFixed(2).replace('.',',')}</div>
-        </div>
-        <button onclick="addToCart(${p.id})">Comprar</button>
-      `;
-      productList.appendChild(div);
-    });
-  }
-
-  // Atualizar carrinho na tela
-  function updateCart() {
-    if(cart.length === 0){
-      cartItems.textContent = "Carrinho vazio";
-      totalPriceSpan.textContent = "0,00";
-      return;
-    }
-    let total = 0;
-    cartItems.innerHTML = "";
-    cart.forEach(item => {
-      const prod = products.find(p => p.id === item.id);
-      const price = prod.price * item.qty;
-      total += price;
-
-      const div = document.createElement("div");
-      div.textContent = `${prod.name} x${item.qty} - R$ ${price.toFixed(2).replace('.',',')}`;
-      cartItems.appendChild(div);
-    });
-    totalPriceSpan.textContent = total.toFixed(2).replace('.',',');
-  }
-
-  // Adicionar produto ao carrinho
-  window.addToCart = function(id) {
-    let item = cart.find(i => i.id === id);
-    if(item) {
-      item.qty++;
-    } else {
-      cart.push({id:id, qty:1});
-    }
-    updateCart();
-  }
-
-  // Login
-  loginBtn.addEventListener("click", () => {
-    const email = loginEmail.value.trim().toLowerCase();
-    const pass = loginPassword.value;
-
-    if(!email || !pass){
-      loginMsg.textContent = "Preencha e-mail e senha";
-      return;
-    }
-
-    const users = getUsers();
-    const user = users.find(u => u.email === email && u.password === pass);
-
-    if(user){
-      setCurrentUser(email);
-      loginEmail.value = "";
-      loginPassword.value = "";
-      loginMsg.textContent = "";
-      startShop();
-    } else {
-      loginMsg.textContent = "Email ou senha inválidos";
-    }
-  });
-
-  // Cadastro
-  registerBtn.addEventListener("click", () => {
-    const email = registerEmail.value.trim().toLowerCase();
-    const pass = registerPassword.value;
-
-    if(!email || !pass){
-      registerMsg.textContent = "Preencha e-mail e senha";
-      return;
-    }
-
-    const users = getUsers();
-    if(users.some(u => u.email === email)){
-      registerMsg.textContent = "Usuário já cadastrado";
-      return;
-    }
-
-    users.push({email: email, password: pass});
-    saveUsers(users);
-    registerEmail.value = "";
-    registerPassword.value = "";
-    registerMsg.style.color = "lightgreen";
-    registerMsg.textContent = "Cadastro feito! Faça login.";
-  });
-
-  // Mostrar tela cadastro
-  showRegisterLink.addEventListener("click", e => {
-    e.preventDefault();
-    showSection(registerSection);
-  });
-
-  // Mostrar tela login
-  showLoginLink.addEventListener("click", e => {
-    e.preventDefault();
-    showSection(loginSection);
-  });
-
-  // Logout
-  logoutBtn.addEventListener("click", () => {
-    clearCurrentUser();
-    cart = [];
-    showSection(loginSection);
-  });
-
-  // Inicia loja após login
-  function startShop(){
-    const email = getCurrentUser();
-    if(!email){
-      showSection(loginSection);
-      return;
-    }
-    userEmailSpan.textContent = email;
-    showSection(shopSection);
-    renderProducts();
-    updateCart();
-  }
-
-  // Verificar login salvo no carregamento da página
-  window.onload = () => {
-    if(getCurrentUser()){
-      startShop();
-    } else {
-      showSection(loginSection);
-    }
-  }
-</script>
-
-</body>
-</html>
+    { id: 'ytpremium', name: 'YouTube Premium', price: 15.00, img: 'https://img.icons8.com/color/96/youtube-premium.png' },
+    { id: 'netflix', name: 'Netflix', price: 20.00, img: 'https://img.icons8.com/color/96/netflix.png' },
+    { id: 'primevideo', name: 'Prime Video', price: 10.00, img: 'https://img.icons8.com/color/96/amazon-prime-video.png' },
+    { id: 'disney', name: 'Disney+', price: 12.00, img: 'https://img.icons8.com/color/96/disney-plus.png' },
+    { id: 'hbo', name: 'HBO Max', price
