@@ -3,311 +3,57 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Boost Media - Login, Cadastro e Loja</title>
+<title>Boost Media - Login e Loja</title>
 <style>
-  /* Reset */
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #111827;
-    color: white;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  body.light {
-    background-color: #f9fafb;
-    color: #111;
-  }
-
-  /* Containers comuns */
-  section {
-    max-width: 900px;
-    margin: 40px auto;
-    background: #1e293b;
-    border-radius: 15px;
-    padding: 30px 40px;
-    box-shadow: 0 0 20px #4f46e5;
-  }
-  body.light section {
-    background: white;
-    color: #111;
-    box-shadow: 0 0 25px #3b82f6;
-  }
-
-  h1, h2 {
-    color: #a5f3fc;
-    margin-bottom: 25px;
-  }
-  body.light h1, body.light h2 {
-    color: #2563eb;
-  }
-
-  /* Login e cadastro */
-  #loginSection, #registerSection {
-    max-width: 360px;
-    margin: 80px auto;
-    text-align: center;
-  }
-
-  input {
-    width: 100%;
-    padding: 12px 15px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    border: none;
-    font-size: 1em;
-    background: #111827;
-    color: white;
-    transition: background 0.3s, color 0.3s;
-  }
-  body.light input {
-    background: #f0f4f8;
-    color: #111;
-  }
-
-  button {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    background: #4f46e5;
-    color: white;
-    font-weight: 700;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  button:hover {
-    background: #4338ca;
-  }
-  body.light button:hover {
-    background: #2563eb;
-  }
-
-  .link-btn {
-    background: none;
-    border: none;
-    color: #a5f3fc;
-    cursor: pointer;
-    text-decoration: underline;
-    margin-top: 10px;
-  }
-
-  #loginMsg, #registerMsg {
-    height: 22px;
-    margin-bottom: 10px;
-    color: #ef4444;
-  }
-
-  /* Loja */
-  #shopSection {
-    display: none;
-  }
-
-  #shopHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  #shopHeader button {
-    width: auto;
-    padding: 8px 15px;
-    border-radius: 12px;
-    font-weight: 600;
-  }
-
-  .product-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
-    gap: 20px;
-  }
-
-  .product-card {
-    background: #111827;
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 0 12px #4f46e5;
-    transition: transform 0.3s ease;
-  }
-  body.light .product-card {
-    background: #f9fafb;
-    box-shadow: 0 0 12px #3b82f6;
-  }
-  .product-card:hover {
-    transform: scale(1.05);
-  }
-
-  .product-card img {
-    max-height: 80px;
-    margin-bottom: 15px;
-  }
-  .product-card h3 {
-    margin-bottom: 10px;
-    color: #fcd34d;
-  }
-  body.light .product-card h3 {
-    color: #ca8a04;
-  }
-  .product-card p {
-    font-weight: 600;
-    margin-bottom: 15px;
-  }
-  .product-card button {
-    background: #10b981;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 15px;
-    font-weight: 700;
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 0 12px #10b981;
-    transition: background 0.3s;
-  }
-  .product-card button:hover {
-    background: #059669;
-  }
-
-  /* Carrinho */
-  #cart {
-    margin-top: 40px;
-    background: #111827;
-    padding: 25px 30px;
-    border-radius: 20px;
-    box-shadow: 0 0 25px #4f46e5;
-  }
-  body.light #cart {
-    background: #fff;
-    color: #111;
-    box-shadow: 0 0 25px #3b82f6;
-  }
-
-  #cart h2 {
-    margin-bottom: 25px;
-    color: #a5f3fc;
-  }
-  body.light #cart h2 {
-    color: #2563eb;
-  }
-
-  #cart-items {
-    max-height: 240px;
-    overflow-y: auto;
-    margin-bottom: 20px;
-  }
-  .cart-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 15px;
-    border-bottom: 1px solid #333;
-    font-weight: 700;
-  }
-  body.light .cart-item {
-    border-color: #ccc;
-  }
-  .cart-item:last-child {
-    border-bottom: none;
-  }
-  .cart-item button {
-    background: #ef4444;
-    border: none;
-    color: white;
-    border-radius: 12px;
-    padding: 6px 14px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  .cart-item button:hover {
-    background: #b91c1c;
-  }
-
-  #totalPrice {
-    text-align: right;
-    font-weight: 900;
-    font-size: 1.4em;
-    color: #fbbf24;
-  }
-
-  /* Cupom */
-  #couponSection {
-    margin-top: 25px;
-    text-align: center;
-  }
-  #couponInput {
-    width: 200px;
-    padding: 10px 12px;
-    border-radius: 12px;
-    border: none;
-    margin-right: 8px;
-    font-size: 1em;
-  }
-  #applyCouponBtn {
-    padding: 10px 18px;
-    border-radius: 15px;
-    background: #3b82f6;
-    border: none;
-    color: white;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  #applyCouponBtn:hover {
-    background: #2563eb;
-  }
-  #couponMsg {
-    margin-top: 10px;
-    height: 22px;
-    color: #f87171;
-  }
-
+  body { font-family: Arial, sans-serif; background: #111827; color: white; margin:0; padding:0;}
+  section { max-width: 900px; margin: 40px auto; padding: 20px; background: #1e293b; border-radius: 15px;}
+  input, button { padding: 10px; font-size: 1em; border-radius: 8px; border: none; margin: 10px 0; width: 100%;}
+  button { background: #4f46e5; color: white; cursor: pointer; font-weight: bold; }
+  button:hover { background: #4338ca; }
+  .hidden { display: none; }
+  .product { background: #111827; padding: 15px; margin-bottom: 15px; border-radius: 10px; }
+  .product img { height: 50px; vertical-align: middle; }
+  .product button { width: auto; margin-left: 10px; padding: 5px 15px; }
+  #cart-items { margin-top: 15px; }
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- Login -->
 <section id="loginSection">
   <h2>Login Boost Media</h2>
-  <input type="email" id="loginEmail" placeholder="Seu e-mail" />
-  <input type="password" id="loginPassword" placeholder="Senha" />
+  <input type="email" id="loginEmail" placeholder="Seu e-mail" required />
+  <input type="password" id="loginPassword" placeholder="Senha" required />
   <button id="loginBtn">Entrar</button>
-  <div id="loginMsg"></div>
-  <button class="link-btn" id="showRegister">Não tem conta? Cadastre-se</button>
+  <p id="loginMsg" style="color:#f87171"></p>
+  <p>Não tem conta? <a href="#" id="showRegisterLink" style="color:#4f46e5; cursor:pointer;">Cadastre-se aqui</a></p>
 </section>
 
-<!-- CADASTRO -->
-<section id="registerSection" style="display:none;">
+<!-- Cadastro -->
+<section id="registerSection" class="hidden">
   <h2>Cadastro Boost Media</h2>
-  <input type="email" id="registerEmail" placeholder="Seu e-mail" />
-  <input type="password" id="registerPassword" placeholder="Senha" />
+  <input type="email" id="registerEmail" placeholder="Seu e-mail" required />
+  <input type="password" id="registerPassword" placeholder="Senha" required />
   <button id="registerBtn">Cadastrar</button>
-  <div id="registerMsg"></div>
-  <button class="link-btn" id="showLogin">Já tem conta? Faça login</button>
+  <p id="registerMsg" style="color:#f87171"></p>
+  <p>Já tem conta? <a href="#" id="showLoginLink" style="color:#4f46e5; cursor:pointer;">Faça login aqui</a></p>
 </section>
 
-<!-- LOJA -->
-<section id="shopSection" style="display:none;">
-  <div id="shopHeader">
-    <h1>Loja Boost Media</h1>
-    <button id="logoutBtn">Sair</button>
-  </div>
-  <p>Bem-vindo, <span id="userEmail"></span>!</p>
+<!-- Loja -->
+<section id="shopSection" class="hidden">
+  <h2>Bem-vindo, <span id="userEmailSpan"></span>!</h2>
+  <button id="logoutBtn" style="background:#ef4444; margin-bottom:20px;">Sair</button>
 
-  <div class="product-list" id="productList"></div>
+  <h3>Produtos</h3>
+  <div id="productList"></div>
 
-  <div id="couponSection">
-    <input type="text" id="couponInput" placeholder="Digite o cupom" />
-    <button id="applyCouponBtn">Aplicar Cupom</button>
-    <div id="couponMsg"></div>
-  </div>
-
-  <div id="cart">
-    <h2>Carrinho</h2>
-    <div id="cart-items">Carrinho vazio.</div>
-    <div id="totalPrice">Total: R$ 0,00</div>
-  </div>
+  <h3>Carrinho</h3>
+  <div id="cart-items">Carrinho vazio</div>
+  <p><strong>Total: R$ <span id="totalPrice">0,00</span></strong></p>
 </section>
 
 <script>
-  // Funções para salvar/ler usuários do localStorage
+  // Usuários salvos no localStorage
   function getUsers() {
     return JSON.parse(localStorage.getItem("boostUsers") || "[]");
   }
@@ -315,27 +61,16 @@
     localStorage.setItem("boostUsers", JSON.stringify(users));
   }
 
-  // Variáveis e constantes
-  const BOOST_COUPON = "BOOST25";
-  const COUPON_DISCOUNT = 0.20; // 20%
-  let couponApplied = false;
-  let couponExpireTime = null; // timestamp
-
-  // Produtos (com imagens e descrições)
-  const products = [
-    {id:1, name:"YouTube Premium", price:15, img:"https://img.icons8.com/color/96/youtube-premium.png", desc:"Assista vídeos sem anúncios."},
-    {id:2, name:"Netflix", price:20, img:"https://img.icons8.com/color/96/netflix.png", desc:"Filmes e séries em alta definição."},
-    {id:3, name:"Prime Video", price:10, img:"https://img.icons8.com/color/96/amazon-prime-video.png", desc:"Conteúdo exclusivo Amazon."},
-    {id:4, name:"Disney+", price:12, img:"https://img.icons8.com/color/96/disney-plus.png", desc:"Clássicos e lançamentos Disney."},
-    {id:5, name:"HBO Max", price:15, img:"https://img.icons8.com/color/96/hbo.png", desc:"Séries e filmes HBO."},
-    {id:6, name:"Paramount+", price:10, img:"https://img.icons8.com/color/96/paramount-plus.png", desc:"Conteúdo Paramount."},
-    {id:7, name:"Spotify Premium", price:50, img:"https://img.icons8.com/color/96/spotify.png", desc:"Música ilimitada sem anúncios."},
-    {id:8, name:"Youcine", price:15, img:"https://img.icons8.com/color/96/tv.png", desc:"Filmes sob demanda."}
-  ];
-
-  // Estado
-  let cart = [];
-  let currentUser = null;
+  // Guardar usuário logado no localStorage
+  function setCurrentUser(email) {
+    localStorage.setItem("boostCurrentUser", email);
+  }
+  function getCurrentUser() {
+    return localStorage.getItem("boostCurrentUser");
+  }
+  function clearCurrentUser() {
+    localStorage.removeItem("boostCurrentUser");
+  }
 
   // Elementos DOM
   const loginSection = document.getElementById("loginSection");
@@ -343,85 +78,183 @@
   const shopSection = document.getElementById("shopSection");
   const loginMsg = document.getElementById("loginMsg");
   const registerMsg = document.getElementById("registerMsg");
-  const productList = document.getElementById("productList");
-  const cartItems = document.getElementById("cart-items");
-  const totalPriceEl = document.getElementById("totalPrice");
-  const userEmailSpan = document.getElementById("userEmail");
-  const couponInput = document.getElementById("couponInput");
-  const applyCouponBtn = document.getElementById("applyCouponBtn");
-  const couponMsg = document.getElementById("couponMsg");
+  const userEmailSpan = document.getElementById("userEmailSpan");
+
+  const loginEmail = document.getElementById("loginEmail");
+  const loginPassword = document.getElementById("loginPassword");
+  const loginBtn = document.getElementById("loginBtn");
+
+  const registerEmail = document.getElementById("registerEmail");
+  const registerPassword = document.getElementById("registerPassword");
+  const registerBtn = document.getElementById("registerBtn");
+
+  const showRegisterLink = document.getElementById("showRegisterLink");
+  const showLoginLink = document.getElementById("showLoginLink");
+
   const logoutBtn = document.getElementById("logoutBtn");
 
-  // Mostrar/Esconder telas
-  function showLogin() {
-    loginSection.style.display = "block";
-    registerSection.style.display = "none";
-    shopSection.style.display = "none";
-    loginMsg.textContent = "";
-  }
-  function showRegister() {
-    loginSection.style.display = "none";
-    registerSection.style.display = "block";
-    shopSection.style.display = "none";
-    registerMsg.textContent = "";
-  }
-  function showShop() {
-    loginSection.style.display = "none";
-    registerSection.style.display = "none";
-    shopSection.style.display = "block";
+  const productList = document.getElementById("productList");
+  const cartItems = document.getElementById("cart-items");
+  const totalPriceSpan = document.getElementById("totalPrice");
+
+  // Produtos fixos
+  const products = [
+    {id:1, name:"YouTube Premium", price:15, img:"https://img.icons8.com/color/48/youtube-premium.png"},
+    {id:2, name:"Netflix", price:20, img:"https://img.icons8.com/color/48/netflix.png"},
+    {id:3, name:"Prime Video", price:10, img:"https://img.icons8.com/color/48/amazon-prime-video.png"},
+    {id:4, name:"Disney+", price:12, img:"https://img.icons8.com/color/48/disney-plus.png"},
+    {id:5, name:"HBO Max", price:15, img:"https://img.icons8.com/color/48/hbo.png"},
+    {id:6, name:"Paramount+", price:10, img:"https://img.icons8.com/color/48/paramount-plus.png"},
+    {id:7, name:"Spotify Premium", price:50, img:"https://img.icons8.com/color/48/spotify.png"},
+    {id:8, name:"Youcine", price:15, img:"https://img.icons8.com/color/48/tv.png"},
+  ];
+
+  // Estado do carrinho
+  let cart = [];
+
+  // Mostrar e esconder seções
+  function showSection(section) {
+    loginSection.classList.add("hidden");
+    registerSection.classList.add("hidden");
+    shopSection.classList.add("hidden");
+    section.classList.remove("hidden");
   }
 
-  // Renderiza produtos na loja
-  function renderProducts(){
+  // Renderizar produtos na loja
+  function renderProducts() {
     productList.innerHTML = "";
     products.forEach(p => {
-      const card = document.createElement("div");
-      card.className = "product-card";
-      card.innerHTML = `
-        <img src="${p.img}" alt="${p.name}" />
-        <h3>${p.name}</h3>
-        <p>${p.desc}</p>
-        <p><strong>R$ ${p.price.toFixed(2).replace('.',',')}</strong></p>
+      const div = document.createElement("div");
+      div.className = "product";
+      div.innerHTML = `
+        <img src="${p.img}" alt="${p.name}" /> ${p.name} - R$ ${p.price.toFixed(2).replace('.',',')}
         <button onclick="addToCart(${p.id})">Comprar</button>
       `;
-      productList.appendChild(card);
+      productList.appendChild(div);
     });
   }
 
-  // Atualiza o carrinho na tela
-  function updateCart(){
+  // Atualizar carrinho na tela
+  function updateCart() {
     if(cart.length === 0){
-      cartItems.textContent = "Carrinho vazio.";
-      totalPriceEl.textContent = "Total: R$ 0,00";
+      cartItems.textContent = "Carrinho vazio";
+      totalPriceSpan.textContent = "0,00";
       return;
     }
-    cartItems.innerHTML = "";
     let total = 0;
+    cartItems.innerHTML = "";
     cart.forEach(item => {
-      const product = products.find(p => p.id === item.id);
-      let priceItem = product.price * item.qty;
-      total += priceItem;
+      const prod = products.find(p => p.id === item.id);
+      const price = prod.price * item.qty;
+      total += price;
+
       const div = document.createElement("div");
-      div.className = "cart-item";
-      div.innerHTML = `
-        <span>${product.name} x${item.qty}</span>
-        <span>R$ ${(priceItem).toFixed(2).replace('.',',')}</span>
-        <button onclick="removeFromCart(${item.id})">X</button>
-      `;
+      div.textContent = `${prod.name} x${item.qty} - R$ ${price.toFixed(2).replace('.',',')}`;
       cartItems.appendChild(div);
     });
+    totalPriceSpan.textContent = total.toFixed(2).replace('.',',');
+  }
 
-    // Aplica desconto do cupom se válido e não expirado
-    if(couponApplied && couponExpireTime){
-      const now = Date.now();
-      if(now <= couponExpireTime){
-        total = total * (1 - COUPON_DISCOUNT);
-        couponMsg.style.color = "lightgreen";
-        couponMsg.textContent = `Cupom aplicado! 20% de desconto ativo.`;
-      } else {
-        couponApplied = false;
-        couponMsg.style.color = "#f87171";
-        couponMsg.textContent = "Cupom expirado.";
-      }
+  // Adicionar produto ao carrinho
+  window.addToCart = function(id) {
+    let item = cart.find(i => i.id === id);
+    if(item) {
+      item.qty++;
     } else {
-      couponMsg.textContent = "";
+      cart.push({id:id, qty:1});
+    }
+    updateCart();
+  }
+
+  // Login
+  loginBtn.addEventListener("click", () => {
+    const email = loginEmail.value.trim().toLowerCase();
+    const pass = loginPassword.value;
+
+    if(!email || !pass){
+      loginMsg.textContent = "Preencha e-mail e senha";
+      return;
+    }
+
+    const users = getUsers();
+    const user = users.find(u => u.email === email && u.password === pass);
+
+    if(user){
+      setCurrentUser(email);
+      loginEmail.value = "";
+      loginPassword.value = "";
+      loginMsg.textContent = "";
+      startShop();
+    } else {
+      loginMsg.textContent = "Email ou senha inválidos";
+    }
+  });
+
+  // Cadastro
+  registerBtn.addEventListener("click", () => {
+    const email = registerEmail.value.trim().toLowerCase();
+    const pass = registerPassword.value;
+
+    if(!email || !pass){
+      registerMsg.textContent = "Preencha e-mail e senha";
+      return;
+    }
+
+    const users = getUsers();
+    if(users.some(u => u.email === email)){
+      registerMsg.textContent = "Usuário já cadastrado";
+      return;
+    }
+
+    users.push({email: email, password: pass});
+    saveUsers(users);
+    registerEmail.value = "";
+    registerPassword.value = "";
+    registerMsg.style.color = "lightgreen";
+    registerMsg.textContent = "Cadastro feito! Faça login.";
+  });
+
+  // Mostrar tela cadastro
+  showRegisterLink.addEventListener("click", e => {
+    e.preventDefault();
+    showSection(registerSection);
+  });
+
+  // Mostrar tela login
+  showLoginLink.addEventListener("click", e => {
+    e.preventDefault();
+    showSection(loginSection);
+  });
+
+  // Logout
+  logoutBtn.addEventListener("click", () => {
+    clearCurrentUser();
+    cart = [];
+    showSection(loginSection);
+  });
+
+  // Inicia loja após login
+  function startShop(){
+    const email = getCurrentUser();
+    if(!email){
+      showSection(loginSection);
+      return;
+    }
+    userEmailSpan.textContent = email;
+    showSection(shopSection);
+    renderProducts();
+    updateCart();
+  }
+
+  // Verificar login salvo no carregamento da página
+  window.onload = () => {
+    if(getCurrentUser()){
+      startShop();
+    } else {
+      showSection(loginSection);
+    }
+  }
+</script>
+
+</body>
+</html>
