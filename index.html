@@ -4,6 +4,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Boost Media</title>
   <link rel="icon" href="https://img.icons8.com/color/96/netflix.png" />
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <style>
     :root {
       --bg-dark: #111827;
@@ -54,15 +56,42 @@ nav a {
   cursor: pointer;
 }
 
-section {
-  padding: 30px 20px;
-  max-width: 1000px;
-  margin: auto;
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 100px auto;
+  padding: 20px;
+  background: #1e293b;
+  border-radius: 10px;
 }
 
-h2 {
+.auth-container input {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+.auth-container button {
+  margin-top: 10px;
+  padding: 10px;
+  background: #10b981;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.hidden { display: none; }
+
+footer {
+  background: #0f172a;
   text-align: center;
-  color: #a5f3fc;
+  padding: 20px;
+  font-size: 0.9em;
+  color: #94a3b8;
+  margin-top: 40px;
 }
 
 .grid {
@@ -77,12 +106,22 @@ h2 {
   border-radius: 12px;
   padding: 20px;
   text-align: center;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
 .card img {
   height: 60px;
   margin-bottom: 15px;
+}
+
+.card h3 {
+  margin: 10px 0 5px;
+  color: #fcd34d;
+}
+
+.card p {
+  font-size: 0.95em;
+  margin-bottom: 10px;
 }
 
 .btn {
@@ -93,15 +132,6 @@ h2 {
   text-decoration: none;
   font-weight: bold;
   display: inline-block;
-}
-
-footer {
-  background: #0f172a;
-  text-align: center;
-  padding: 20px;
-  font-size: 0.9em;
-  color: #94a3b8;
-  margin-top: 40px;
 }
 
 .whatsapp-float {
@@ -127,50 +157,119 @@ footer {
   </style>
 </head>
 <body>
-  <button class="toggle-mode" onclick="toggleMode()">🌙/☀️</button>  <header>
-    <h1>Boost Media</h1>
-    <p>Seu portal de contas premium com entrega rápida e preço justo!</p>
-  </header>  <nav>
-    <a href="#produtos">Produtos</a>
-    <a href="#combos">Combos</a>
-    <a href="#faq">FAQ</a>
-    <a href="#politica">Política de Uso</a>
-  </nav>  <section id="produtos">
-    <h2>📺 Produtos Individuais</h2>
-    <div class="grid">
-      <div class="card"><img src="https://img.icons8.com/color/96/youtube-premium.png" /><h3>YouTube Premium</h3><p>R$15,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
-      <div class="card"><img src="https://img.icons8.com/color/96/netflix.png" /><h3>Netflix</h3><p>R$20,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
-      <div class="card"><img src="https://img.icons8.com/color/96/amazon-prime-video.png" /><h3>Prime Video</h3><p>R$10,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
-      <div class="card"><img src="https://img.icons8.com/color/96/disney-plus.png" /><h3>Disney+</h3><p>R$12,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
-      <div class="card"><img src="https://img.icons8.com/color/96/hbo.png" /><h3>HBO Max</h3><p>R$15,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
-      <div class="card"><img src="https://img.icons8.com/color/96/paramount-plus.png" /><h3>Paramount+</h3><p>R$10,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
-      <div class="card"><img src="https://img.icons8.com/color/96/spotify.png" /><h3>Spotify Premium</h3><p>R$50,00/ano</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
-      <div class="card"><img src="https://img.icons8.com/color/96/tv.png" /><h3>Youcine</h3><p>R$15,00 único</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
-    </div>
-  </section>  <section id="combos">
-    <h2>🔥 Combos Promocionais</h2>
-    <div class="grid">
-      <div class="card"><h3>Netflix + Spotify</h3><p>R$29,90/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar Combo</a></div>
-      <div class="card"><h3>HBO + Prime Video</h3><p>R$22,90/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar Combo</a></div>
-      <div class="card"><h3>Disney+ + YouTube Premium</h3><p>R$25,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar Combo</a></div>
-    </div>
-  </section>  <section id="faq">
-    <h2>❓ Perguntas Frequentes (FAQ)</h2>
-    <div class="card"><strong>🕐 Quando recebo minha conta?</strong><br>Imediatamente após o pagamento e envio do comprovante via WhatsApp.</div>
-    <div class="card"><strong>👨‍👩‍👧 Posso dividir com alguém?</strong><br>Sim! Alguns serviços são familiares, outros são individuais.</div>
-    <div class="card"><strong>💳 Quais formas de pagamento?</strong><br>Apenas PIX. Envie o comprovante para ativação.</div>
-    <div class="card"><strong>📱 Suporte funciona quando?</strong><br>Segunda a sábado, das 9h às 21h.</div>
-  </section>  <section id="politica">
-    <h2>📜 Política de Uso</h2>
-    <p>Ao comprar, você concorda com os termos de uso das plataformas. O uso indevido ou o compartilhamento não autorizado poderá resultar no cancelamento do serviço sem reembolso.</p>
-  </section>  <footer>
-    <p>WhatsApp: (65) 99946-8323 • Email: boostmediapremium@gmail.com</p>
-    <p>&copy; 2025 Boost Media – Todos os direitos reservados.</p>
-  </footer>  <a class="whatsapp-float" href="https://wa.me/5565999468323" target="_blank">
+  <button class="toggle-mode" onclick="toggleMode()">🌙/☀️</button>  <div id="login-container" class="auth-container">
+    <h2>Entrar ou Cadastrar</h2>
+    <input type="email" id="email" placeholder="Seu e-mail" />
+    <input type="password" id="password" placeholder="Sua senha" />
+    <button onclick="login()">Entrar</button>
+    <button onclick="signup()">Cadastrar</button>
+  </div>  <div id="site-container" class="hidden">
+    <header>
+      <h1>Boost Media</h1>
+      <p>Seu portal de contas premium com entrega rápida e preço justo!</p>
+    </header><nav>
+  <a href="#produtos">Produtos</a>
+  <a href="#combos">Combos</a>
+  <a href="#faq">FAQ</a>
+  <a href="#politica">Política de Uso</a>
+  <a href="#" onclick="logout()">Sair</a>
+</nav>
+
+<section id="produtos">
+  <h2>📺 Produtos Individuais</h2>
+  <div class="grid">
+    <div class="card"><img src="https://img.icons8.com/color/96/youtube-premium.png"><h3>YouTube Premium</h3><p>R$15,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
+    <div class="card"><img src="https://img.icons8.com/color/96/netflix.png"><h3>Netflix</h3><p>R$20,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
+    <div class="card"><img src="https://img.icons8.com/color/96/amazon-prime-video.png"><h3>Prime Video</h3><p>R$10,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
+    <div class="card"><img src="https://img.icons8.com/color/96/disney-plus.png"><h3>Disney+</h3><p>R$12,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
+    <div class="card"><img src="https://img.icons8.com/color/96/hbo.png"><h3>HBO Max</h3><p>R$15,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
+    <div class="card"><img src="https://img.icons8.com/color/96/paramount-plus.png"><h3>Paramount+</h3><p>R$10,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
+    <div class="card"><img src="https://img.icons8.com/color/96/spotify.png"><h3>Spotify Premium</h3><p>R$50,00/ano</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
+    <div class="card"><img src="https://img.icons8.com/color/96/tv.png"><h3>Youcine</h3><p>R$15,00 único</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
+  </div>
+</section>
+
+<section id="combos">
+  <h2>🔥 Combos Promocionais</h2>
+  <div class="grid">
+    <div class="card"><h3>Netflix + Spotify</h3><p>R$29,90/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar Combo</a></div>
+    <div class="card"><h3>HBO + Prime Video</h3><p>R$22,90/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar Combo</a></div>
+    <div class="card"><h3>Disney+ + YouTube Premium</h3><p>R$25,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar Combo</a></div>
+  </div>
+</section>
+
+<section id="faq">
+  <h2>❓ Perguntas Frequentes</h2>
+  <div class="card"><strong>🕐 Quando recebo minha conta?</strong><br>Imediatamente após o pagamento e envio do comprovante via WhatsApp.</div>
+  <div class="card"><strong>👨‍👩‍👧 Posso dividir com alguém?</strong><br>Sim! Alguns serviços são familiares, outros são individuais. Verifique na descrição.</div>
+  <div class="card"><strong>💳 Quais formas de pagamento?</strong><br>Apenas PIX. Envie o comprovante para ativação.</div>
+  <div class="card"><strong>📱 Suporte funciona quando?</strong><br>Segunda a sábado, das 9h às 21h.</div>
+</section>
+
+<section id="politica">
+  <h2>📜 Política de Uso</h2>
+  <div class="card">
+    <p>O uso de nossas contas é pessoal e intransferível, salvo nos planos familiares.</p>
+    <p>É proibido alterar dados das contas fornecidas.</p>
+    <p>O descumprimento pode resultar no cancelamento sem reembolso.</p>
+  </div>
+</section>
+
+<footer>
+  <p>WhatsApp: (65) 99946-8323 • Email: boostmediapremium@gmail.com</p>
+  <p>&copy; 2025 Boost Media – Todos os direitos reservados.</p>
+</footer>
+
+  </div>  <a class="whatsapp-float" href="https://wa.me/5565999468323" target="_blank">
     <img src="https://img.icons8.com/color/48/whatsapp--v1.png" />
   </a>  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDBTpV4najUw7DtI5nCXfsb9wHLlgnnsj0",
+      authDomain: "boostmidia-874f1.firebaseapp.com",
+      projectId: "boostmidia-874f1",
+      storageBucket: "boostmidia-874f1.appspot.com",
+      messagingSenderId: "182351458835",
+      appId: "1:182351458835:web:a89b0c677574c39537c5e6",
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
     function toggleMode() {
       document.body.classList.toggle('light-mode');
     }
+
+    function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          document.getElementById("login-container").classList.add("hidden");
+          document.getElementById("site-container").classList.remove("hidden");
+        })
+        .catch(error => alert("Erro ao entrar: " + error.message));
+    }
+
+    function signup() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(() => alert("Cadastro realizado com sucesso! Agora você pode entrar."))
+        .catch(error => alert("Erro ao cadastrar: " + error.message));
+    }
+
+    function logout() {
+      auth.signOut().then(() => {
+        document.getElementById("login-container").classList.remove("hidden");
+        document.getElementById("site-container").classList.add("hidden");
+      });
+    }
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById("login-container").classList.add("hidden");
+        document.getElementById("site-container").classList.remove("hidden");
+      }
+    });
   </script></body>
 </html>
