@@ -5,176 +5,193 @@
   <title>Boost Media - Loja</title>
   <link rel="icon" href="https://img.icons8.com/color/96/netflix.png" type="image/png" />
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #111827;
-      color: #f1f1f1;
-    }
-    .hidden { display: none; }
-    .container {
-      max-width: 500px;
-      margin: 40px auto;
-      background: #1e293b;
-      padding: 30px;
-      border-radius: 12px;
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 12px 0;
-      border-radius: 8px;
-      border: none;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      background: #4f46e5;
-      color: white;
-      font-size: 1.1em;
-      cursor: pointer;
-    }
-    header {
-      background: #4f46e5;
-      text-align: center;
-      padding: 30px;
-    }
-    header h1 { margin: 0; font-size: 2.5em; }
-    .card {
-      background: #1e293b;
-      border-radius: 12px;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-      margin-bottom: 20px;
-    }
-    .card img { height: 60px; margin-bottom: 15px; }
-    .card h3 { color: #fcd34d; }
-    .btn-add {
-      background: #10b981;
-      margin-top: 10px;
-      padding: 10px;
-    }
-    #cart {
-      background: #1e293b;
-      padding: 20px;
-      margin-top: 30px;
-      border-radius: 10px;
-    }
+    :root {
+      --bg-dark: #111827;
+      --text-light: #f1f1f1;
+      --primary: #4f46e5;
+      --secondary: #1e293b;
+      --highlight: #10b981;
+      --card-shadow: rgba(0,0,0,0.2);
+      --danger: #ef4444;
+    }body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-light);
+  transition: background 0.3s, color 0.3s;
+}
+
+body.light-mode {
+  --bg-dark: #f1f5f9;
+  --text-light: #111827;
+  --secondary: #e2e8f0;
+  --card-shadow: rgba(0,0,0,0.1);
+}
+
+.hidden { display: none; }
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  background: var(--secondary);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px var(--card-shadow);
+}
+input, button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+}
+input { background: #334155; color: #f1f5f9; }
+body.light-mode input { background: #cbd5e1; color: #1e293b; }
+
+button {
+  background: var(--primary);
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+button:hover { filter: brightness(1.1); }
+
+header {
+  background: var(--primary);
+  text-align: center;
+  padding: 30px;
+}
+header h1 { margin: 0; font-size: 2.5em; }
+header p { margin: 10px 0 0; font-size: 1.1em; }
+
+.modo-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: var(--highlight);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.menu-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #1e40af;
+  color: #fff;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  top: 60px;
+  left: 20px;
+  background: var(--secondary);
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px var(--card-shadow);
+  display: none;
+}
+.dropdown a {
+  display: block;
+  color: var(--text-light);
+  text-decoration: none;
+  margin-bottom: 8px;
+}
+
+.card {
+  background: var(--secondary);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 0 10px var(--card-shadow);
+  margin-bottom: 20px;
+  animation: fadeInUp 0.5s ease;
+}
+@keyframes fadeInUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.card img { height: 60px; margin-bottom: 15px; transition: transform 0.3s; }
+.card img:hover { transform: scale(1.1); }
+
+.card h3 { color: #fcd34d; }
+
+.btn-add {
+  background: var(--highlight);
+  margin-top: 10px;
+  padding: 10px;
+}
+
+#cart {
+  background: var(--secondary);
+  padding: 20px;
+  margin-top: 30px;
+  border-radius: 10px;
+}
+
+a#checkout {
+  display: block;
+  background: var(--primary);
+  color: white;
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+section.page-content {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 20px;
+  background: var(--secondary);
+  border-radius: 10px;
+}
+
   </style>
 </head>
 <body>
-  <header>
+  <button class="modo-btn" onclick="toggleModo()">🌗 Modo</button>
+  <button class="menu-btn" onclick="toggleMenu()">☰</button>
+  <div id="menu" class="dropdown">
+    <a href="#conta">Configurações da Conta</a>
+    <a href="#sobre">Sobre a Loja</a>
+    <a href="#politica">Política de Uso</a>
+    <a href="https://wa.me/5565999468323">Fale Conosco (WhatsApp)</a>
+  </div>  <header>
     <h1>Boost Media</h1>
     <p>Contas premium com entrega rápida e preço justo!</p>
-  </header>  <div id="login" class="container">
-    <h2>Entrar</h2>
-    <input type="email" id="email" placeholder="Email" />
-    <input type="password" id="password" placeholder="Senha" />
-    <button onclick="login()">Entrar</button>
-  </div>  <div id="loja" class="container hidden">
-    <h2>Produtos</h2>
-    <div id="produtos"></div>
-    <div id="cart">
-      <h3>Carrinho</h3>
-      <ul id="cartItems"></ul>
-      <input type="text" id="cupom" placeholder="Digite o cupom BOOST25" />
-      <button onclick="aplicarCupom()">Aplicar Cupom</button>
-      <p id="total">Total: R$ 0,00</p>
-      <a id="checkout" target="_blank">Finalizar no WhatsApp</a>
-      <button style="margin-top:10px; background:#ef4444;" onclick="logout()">Sair</button>
-    </div>
-  </div>  <!-- Firebase SDK -->  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDwBokVIhJ2QJ1c8CnPuI60YnfeTdlCoEo",
-      authDomain: "boostmidia-admin.firebaseapp.com",
-      projectId: "boostmidia-admin",
-      storageBucket: "boostmidia-admin.appspot.com",
-      messagingSenderId: "276784965090",
-      appId: "1:276784965090:web:876665634014edc2e585bb"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-
-    const loginDiv = document.getElementById("login");
-    const lojaDiv = document.getElementById("loja");
-
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        loginDiv.classList.add("hidden");
-        lojaDiv.classList.remove("hidden");
-        carregarProdutos();
-      } else {
-        loginDiv.classList.remove("hidden");
-        lojaDiv.classList.add("hidden");
-      }
-    });
-
-    function login() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      auth.signInWithEmailAndPassword(email, password).catch(e => alert("Erro: " + e.message));
+  </header>  <section id="conta" class="page-content">
+    <h2>Configurações da Conta</h2>
+    <p>Aqui você poderá futuramente alterar dados como senha, email ou visualizar seu histórico de pedidos. (Em construção)</p>
+  </section>  <section id="sobre" class="page-content">
+    <h2>Sobre a Loja</h2>
+    <p>A Boost Media oferece acesso às melhores plataformas de streaming por um preço acessível, com suporte rápido via WhatsApp. Nosso foco é a satisfação do cliente com praticidade, segurança e entrega imediata.</p>
+  </section>  <section id="politica" class="page-content">
+    <h2>Política de Uso</h2>
+    <ul>
+      <li>🔒 Os dados fornecidos são sigilosos e usados apenas para entrega.</li>
+      <li>📆 O acesso é garantido conforme o plano contratado.</li>
+      <li>❗ É proibido compartilhar dados sem autorização.</li>
+      <li>📞 Suporte de segunda a sábado, das 9h às 21h.</li>
+    </ul>
+  </section>  <script>
+    function toggleModo() {
+      document.body.classList.toggle("light-mode");
     }
 
-    function logout() {
-      auth.signOut();
-    }
-
-    const carrinho = [];
-    let desconto = 0;
-
-    function carregarProdutos() {
-      const div = document.getElementById("produtos");
-      div.innerHTML = "";
-      db.collection("produtos").get().then(snapshot => {
-        snapshot.forEach(doc => {
-          const p = doc.data();
-          div.innerHTML += `
-            <div class="card">
-              <img src="${p.img}" />
-              <h3>${p.nome}</h3>
-              <p>R$ ${parseFloat(p.preco).toFixed(2)}</p>
-              <button class="btn-add" onclick='adicionar(${JSON.stringify(p)})'>Adicionar</button>
-            </div>
-          `;
-        });
-      });
-    }
-
-    function adicionar(produto) {
-      carrinho.push(produto);
-      atualizarCarrinho();
-    }
-
-    function aplicarCupom() {
-      const valor = document.getElementById("cupom").value;
-      if (valor === "BOOST25") {
-        desconto = 0.2;
-        alert("Cupom aplicado com sucesso!");
-        atualizarCarrinho();
-      } else {
-        alert("Cupom inválido");
-      }
-    }
-
-    function atualizarCarrinho() {
-      const lista = document.getElementById("cartItems");
-      const totalText = document.getElementById("total");
-      const checkout = document.getElementById("checkout");
-      lista.innerHTML = "";
-      let total = 0;
-      carrinho.forEach(item => {
-        lista.innerHTML += `<li>${item.nome} - R$ ${parseFloat(item.preco).toFixed(2)}</li>`;
-        total += parseFloat(item.preco);
-      });
-      total = total - (total * desconto);
-      totalText.innerText = `Total: R$ ${total.toFixed(2)}`;
-      const texto = encodeURIComponent("Olá! Quero comprar:\n" + carrinho.map(i => `- ${i.nome}`).join("\n") + `\nTotal: R$ ${total.toFixed(2)}`);
-      checkout.href = `https://wa.me/5565999468323?text=${texto}`;
+    function toggleMenu() {
+      const menu = document.getElementById("menu");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
     }
   </script></body>
 </html>
