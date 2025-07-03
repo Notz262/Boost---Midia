@@ -1,16 +1,400 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Boost Media</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="https://img.icons8.com/color/96/netflix.png" type="image/png" />
+  <style>
+    /* Reset e fontes */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #111827;
+      color: #f1f1f1;
+      transition: background 0.3s, color 0.3s;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    body[data-theme='light'] {
+      background: #f9fafb;
+      color: #1f2937;
+    }
+    header {
+      background: #4f46e5;
+      padding: 30px 20px;
+      text-align: center;
+      color: white;
+      user-select: none;
+      box-shadow: 0 2px 8px rgb(79 70 229 / 0.5);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+    header p {
+      margin-top: 10px;
+      font-size: 1.1em;
+      font-weight: 500;
+    }
+    nav {
+      background: #1f2937;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      color: #a5f3fc;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.1em;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #60a5fa;
+    }
+    main {
+      flex-grow: 1;
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 20px 40px 20px;
+    }
+    h2 {
+      color: #a5f3fc;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 0 12px rgba(0,0,0,0.3);
+      transition: transform 0.3s;
+      cursor: default;
+    }
+    body[data-theme='light'] .card {
+      background: #ffffff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      color: #1f2937;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 15px rgba(79,70,229,0.5);
+    }
+    .card img {
+      height: 60px;
+      margin-bottom: 15px;
+      user-select: none;
+    }
+    .card h3 {
+      margin: 10px 0 5px;
+      color: #fcd34d;
+      user-select: text;
+    }
+    body[data-theme='light'] .card h3 {
+      color: #b45309;
+    }
+    .card p {
+      font-size: 1em;
+      margin-bottom: 10px;
+      font-weight: 600;
+      user-select: text;
+    }
+    .btnBuy {
+      background: #10b981;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      display: inline-block;
+      transition: background 0.3s;
+      user-select: none;
+    }
+    .btnBuy:hover {
+      background: #059669;
+    }
+    /* Login Modal */
+    #loginModal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    #loginBox {
+      background: #1e293b;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #4f46e5aa;
+      width: 320px;
+      color: white;
+      text-align: center;
+      position: relative;
+      animation: floatUp 0.8s ease forwards;
+    }
+    @keyframes floatUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    #loginBox h2 {
+      margin-bottom: 25px;
+      font-weight: 700;
+      font-size: 1.8em;
+      letter-spacing: 1.2px;
+      user-select: none;
+    }
+    #loginBox input {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: none;
+      font-size: 1em;
+      outline: none;
+      box-sizing: border-box;
+    }
+    #loginBox button {
+      width: 48%;
+      padding: 12px 0;
+      margin: 5px 1%;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s;
+      user-select: none;
+    }
+    #btnLogin {
+      background: #4f46e5;
+      color: white;
+    }
+    #btnLogin:hover {
+      background: #4338ca;
+    }
+    #btnRegister {
+      background: #10b981;
+      color: white;
+    }
+    #btnRegister:hover {
+      background: #059669;
+    }
+    /* Coupon input */
+    #couponSection {
+      margin: 25px 0;
+      text-align: center;
+    }
+    #couponInput {
+      padding: 10px 12px;
+      font-size: 1em;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      max-width: 200px;
+    }
+    #applyCouponBtn {
+      background: #4f46e5;
+      color: white;
+      border: none;
+      padding: 11px 20px;
+      margin-left: 8px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      user-select: none;
+    }
+    #applyCouponBtn:hover {
+      background: #4338ca;
+    }
+    #discountMsg {
+      margin-top: 12px;
+      font-weight: 700;
+      color: #facc15;
+      min-height: 22px;
+      user-select: none;
+    }
+    /* Logout button */
+    #btnLogout {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #ef4444;
+      color: white;
+      padding: 10px 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgb(239 68 68 / 0.7);
+      display: none;
+      user-select: none;
+      transition: background 0.3s;
+      z-index: 999;
+    }
+    #btnLogout:hover {
+      background: #b91c1c;
+    }
+    /* WhatsApp floating button */
+    .whatsapp-float {
+      position: fixed;
+      width: 60px;
+      height: 60px;
+      bottom: 20px;
+      right: 20px;
+      background-color: #25d366;
+      color: #fff;
+      border-radius: 50px;
+      text-align: center;
+      font-size: 30px;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      user-select: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .whatsapp-float img {
+      width: 35px;
+      user-select: none;
+    }
+    /* Theme toggle button */
+    #btnThemeToggle {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      background: #4f46e5;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgb(79 70 229 / 0.7);
+      user-select: none;
+      z-index: 999;
+      transition: background 0.3s;
+    }
+    #btnThemeToggle:hover {
+      background: #4338ca;
+    }
+    /* Header nav links style for light theme */
+    body[data-theme='light'] nav {
+      background: #e0e7ff;
+    }
+    body[data-theme='light'] nav a {
+      color: #4f46e5;
+    }
+    body[data-theme='light'] nav a:hover {
+      color: #312e81;
+    }
+  </style>
+</head>
+<body data-theme="dark">
+
+<header>
+  <h1>Boost Media</h1>
+  <p>Seu portal de contas premium com entrega rápida e preço justo!</p>
+</header>
+
+<nav>
+  <a href="#produtos">Produtos</a>
+  <a href="#combos">Combos</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<!-- Login Modal -->
+<div id="loginModal">
+  <div id="loginBox">
+    <h2>Login Boost Media</h2>
+    <input type="email" id="email" placeholder="Email" autocomplete="username" />
+    <input type="password" id="password" placeholder="Senha" autocomplete="current-password" />
+    <div>
+      <button id="btnLogin">Entrar</button>
+      <button id="btnRegister">Cadastrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Conteúdo principal (loja) -->
+<main id="mainContent" style="display:none;">
+  <!-- Cupom -->
+  <section id="couponSection">
+    <input id="couponInput" placeholder="Insira cupom BOOST25" maxlength="10" />
+    <button id="applyCouponBtn">Aplicar Cupom</button>
+    <div id="discountMsg"></div>
+  </section>
+
+  <!-- Produtos -->
+  <section id="produtos">
+    <h2>📺 Produtos Individuais</h2>
+    <div class="grid" id="productsGrid"></div>
+  </section>
+
+  <!-- Combos -->
+  <section id="combos" style="margin-top:40px;">
+    <h2>🔥 Combos Promocionais</h2>
+    <div class="grid" id="combosGrid"></div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" style="margin-top:40px;">
+    <h2>❓ Perguntas Frequentes (FAQ)</h2>
+    <div style="max-width: 900px; margin: auto; font-size: 1em; user-select: text;">
+      <p><strong>🕐 Quando recebo minha conta?</strong><br> Imediatamente após o pagamento e envio do comprovante via WhatsApp.</p>
+      <p><strong>👨‍👩‍👧 Posso dividir com alguém?</strong><br> Sim! Alguns serviços são familiares, outros são individuais. Verifique na descrição.</p>
+      <p><strong>💳 Quais formas de pagamento?</strong><br> Apenas PIX. Envie o comprovante para ativação.</p>
+      <p><strong>📱 Suporte funciona quando?</strong><br> Segunda a sábado, das 9h às 21h.</p>
+    </div>
+  </section>
+</main>
+
+<button id="btnLogout" title="Sair da conta">Logout</button>
+<button id="btnThemeToggle" title="Alternar tema">Tema</button>
+
+<a class="whatsapp-float" href="https://wa.me/5565999468323" target="_blank" title="WhatsApp">
+  <img src="https://img.icons8.com/color/48/whatsapp--v1.png" alt="WhatsApp" />
+</a>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+
 <script>
-  // Inicializa Firebase
-  firebase.initializeApp({
+  // Config Firebase
+  const firebaseConfig = {
     apiKey: "AIzaSyDwBokVIhJ2QJ1c8CnPuI60YnfeTdlCoEo",
     authDomain: "boostmidia-admin.firebaseapp.com",
     projectId: "boostmidia-admin",
     storageBucket: "boostmidia-admin.appspot.com",
     messagingSenderId: "276784965090",
     appId: "1:276784965090:web:876665634014edc2e585bb"
-  });
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
 
-  // Lista dos produtos individuais
+  // Produtos
   const products = [
     {id:"youtube", name:"YouTube Premium", price:15, img:"https://img.icons8.com/color/96/youtube-premium.png", desc:"R$15,00/mês"},
     {id:"netflix", name:"Netflix", price:20, img:"https://img.icons8.com/color/96/netflix.png", desc:"R$20,00/mês"},
@@ -21,31 +405,34 @@
     {id:"spotify", name:"Spotify Premium", price:50, img:"https://img.icons8.com/color/96/spotify.png", desc:"R$50,00/mês"}
   ];
 
-  // Combos promocionais
+  // Combos
   const combos = [
     {
       id:"combo1",
-      name:"Combo Streaming Básico",
-      price: 40,
-      items:["Netflix + Prime Video + Disney+"],
+      name:"Netflix + Spotify",
+      price:29.90,
       img:"https://img.icons8.com/color/96/tv-show.png",
-      desc:"3 contas premium por R$40,00/mês"
+      desc:"Combo por R$29,90/mês"
     },
     {
       id:"combo2",
-      name:"Combo Streaming Total",
-      price: 75,
-      items:["Netflix + Prime Video + Disney+ + HBO Max + Paramount+"],
+      name:"HBO + Prime Video",
+      price:22.90,
       img:"https://img.icons8.com/color/96/multimedia.png",
-      desc:"5 contas premium por R$75,00/mês"
+      desc:"Combo por R$22,90/mês"
+    },
+    {
+      id:"combo3",
+      name:"Disney+ + YouTube Premium",
+      price:25.00,
+      img:"https://img.icons8.com/color/96/streaming.png",
+      desc:"Combo por R$25,00/mês"
     }
   ];
 
-  // Variáveis controle
-  let currentDiscount = 0;
   let discountPercent = 0;
 
-  // Função para montar cards dos produtos
+  // Renderiza produtos
   function renderProducts() {
     const container = document.getElementById('productsGrid');
     container.innerHTML = '';
@@ -64,7 +451,7 @@
     });
   }
 
-  // Função para montar combos
+  // Renderiza combos
   function renderCombos() {
     const container = document.getElementById('combosGrid');
     container.innerHTML = '';
@@ -83,456 +470,10 @@
     });
   }
 
-  // Função para aplicar cupom BOOST25 (20% desconto)
+  // Aplica cupom BOOST25
   function applyCoupon() {
     const input = document.getElementById('couponInput');
     const msg = document.getElementById('discountMsg');
     if(input.value.toUpperCase() === 'BOOST25') {
       discountPercent = 20;
       msg.textContent = 'Cupom BOOST25 aplicado! Você ganhou 20% de desconto.';
-      renderProducts();
-      renderCombos();
-    } else {
-      discountPercent = 0;
-      msg.textContent = 'Cupom inválido.';
-      renderProducts();
-      renderCombos();
-    }
-  }
-
-  // Troca tema claro/escuro
-  function toggleTheme() {
-    const body = document.body;
-    if(body.dataset.theme === 'dark') {
-      body.dataset.theme = 'light';
-    } else {
-      body.dataset.theme = 'dark';
-    }
-  }
-
-  // Login com Firebase
-  function login() {
-    const email = document.getElementById('email').value.trim();
-    const pass = document.getElementById('password').value.trim();
-    if(email === '' || pass === '') {
-      alert('Por favor, preencha email e senha.');
-      return;
-    }
-    auth.signInWithEmailAndPassword(email, pass)
-      .then(() => {
-        afterLogin();
-      })
-      .catch(err => {
-        alert('Erro no login: ' + err.message);
-      });
-  }
-
-  // Cadastro com Firebase
-  function register() {
-    const email = document.getElementById('email').value.trim();
-    const pass = document.getElementById('password').value.trim();
-    if(email === '' || pass === '') {
-      alert('Por favor, preencha email e senha.');
-      return;
-    }
-    auth.createUserWithEmailAndPassword(email, pass)
-      .then(() => {
-        alert('Usuário cadastrado com sucesso! Você já está logado.');
-        afterLogin();
-      })
-      .catch(err => {
-        alert('Erro no cadastro: ' + err.message);
-      });
-  }
-
-  // Após login bem-sucedido
-  function afterLogin() {
-    document.getElementById('loginModal').style.display = 'none';
-    document.getElementById('mainContent').style.display = 'block';
-    document.getElementById('btnLogout').style.display = 'inline-block';
-    renderProducts();
-    renderCombos();
-  }<script>
-  // Inicializa Firebase
-  firebase.initializeApp({
-    apiKey: "AIzaSyDwBokVIhJ2QJ1c8CnPuI60YnfeTdlCoEo",
-    authDomain: "boostmidia-admin.firebaseapp.com",
-    projectId: "boostmidia-admin",
-    storageBucket: "boostmidia-admin.appspot.com",
-    messagingSenderId: "276784965090",
-    appId: "1:276784965090:web:876665634014edc2e585bb"
-  });
-  const auth = firebase.auth();
-
-  // Lista dos produtos individuais
-  const products = [
-    {id:"youtube", name:"YouTube Premium", price:15, img:"https://img.icons8.com/color/96/youtube-premium.png", desc:"R$15,00/mês"},
-    {id:"netflix", name:"Netflix", price:20, img:"https://img.icons8.com/color/96/netflix.png", desc:"R$20,00/mês"},
-    {id:"prime", name:"Prime Video", price:10, img:"https://img.icons8.com/color/96/amazon-prime-video.png", desc:"R$10,00/mês"},
-    {id:"disney", name:"Disney+", price:12, img:"https://img.icons8.com/color/96/disney-plus.png", desc:"R$12,00/mês"},
-    {id:"hbo", name:"HBO Max", price:15, img:"https://img.icons8.com/color/96/hbo.png", desc:"R$15,00/mês"},
-    {id:"paramount", name:"Paramount+", price:10, img:"https://img.icons8.com/color/96/paramount-plus.png", desc:"R$10,00/mês"},
-    {id:"spotify", name:"Spotify Premium", price:50, img:"https://img.icons8.com/color/96/spotify.png", desc:"R$50,00/mês"}
-  ];
-
-  // Combos promocionais
-  const combos = [
-    {
-      id:"combo1",
-      name:"Combo Streaming Básico",
-      price: 40,
-      items:["Netflix + Prime Video + Disney+"],
-      img:"https://img.icons8.com/color/96/tv-show.png",
-      desc:"3 contas premium por R$40,00/mês"
-    },
-    {
-      id:"combo2",
-      name:"Combo Streaming Total",
-      price: 75,
-      items:["Netflix + Prime Video + Disney+ + HBO Max + Paramount+"],
-      img:"https://img.icons8.com/color/96/multimedia.png",
-      desc:"5 contas premium por R$75,00/mês"
-    }
-  ];
-
-  // Variáveis controle
-  let currentDiscount = 0;
-  let discountPercent = 0;
-
-  // Função para montar cards dos produtos
-  function renderProducts() {
-    const container = document.getElementById('productsGrid');
-    container.innerHTML = '';
-    products.forEach(prod => {
-      const priceFinal = (prod.price * (1 - discountPercent/100)).toFixed(2);
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <img src="${prod.img}" alt="${prod.name}" />
-        <h3>${prod.name}</h3>
-        <p>${prod.desc}</p>
-        <p><strong>R$ ${priceFinal}</strong></p>
-        <a class="btnBuy" href="https://wa.me/5565999468323?text=Olá,%20quero%20comprar%20${encodeURIComponent(prod.name)}%20por%20R$${priceFinal}" target="_blank">Comprar via WhatsApp</a>
-      `;
-      container.appendChild(card);
-    });
-  }
-
-  // Função para montar combos
-  function renderCombos() {
-    const container = document.getElementById('combosGrid');
-    container.innerHTML = '';
-    combos.forEach(combo => {
-      const priceFinal = (combo.price * (1 - discountPercent/100)).toFixed(2);
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <img src="${combo.img}" alt="${combo.name}" />
-        <h3>${combo.name}</h3>
-        <p>${combo.desc}</p>
-        <p><strong>R$ ${priceFinal}</strong></p>
-        <a class="btnBuy" href="https://wa.me/5565999468323?text=Olá,%20quero%20comprar%20o%20${encodeURIComponent(combo.name)}%20por%20R$${priceFinal}" target="_blank">Comprar via WhatsApp</a>
-      `;
-      container.appendChild(card);
-    });
-  }
-
-  // Função para aplicar cupom BOOST25 (20% desconto)
-  function applyCoupon() {
-    const input = document.getElementById('couponInput');
-    const msg = document.getElementById('discountMsg');
-    if(input.value.toUpperCase() === 'BOOST25') {
-      discountPercent = 20;
-      msg.textContent = 'Cupom BOOST25 aplicado! Você ganhou 20% de desconto.';
-      renderProducts();
-      renderCombos();
-    } else {
-      discountPercent = 0;
-      msg.textContent = 'Cupom inválido.';
-      renderProducts();
-      renderCombos();
-    }
-  }
-
-  // Troca tema claro/escuro
-  function toggleTheme() {
-    const body = document.body;
-    if(body.dataset.theme === 'dark') {
-      body.dataset.theme = 'light';
-    } else {
-      body.dataset.theme = 'dark';
-    }
-  }
-
-  // Login com Firebase
-  function login() {
-    const email = document.getElementById('email').value.trim();
-    const pass = document.getElementById('password').value.trim();
-    if(email === '' || pass === '') {
-      alert('Por favor, preencha email e senha.');
-      return;
-    }
-    auth.signInWithEmailAndPassword(email, pass)
-      .then(() => {
-        afterLogin();
-      })
-      .catch(err => {
-        alert('Erro no login: ' + err.message);
-      });
-  }
-
-  // Cadastro com Firebase
-  function register() {
-    const email = document.getElementById('email').value.trim();
-    const pass = document.getElementById('password').value.trim();
-    if(email === '' || pass === '') {
-      alert('Por favor, preencha email e senha.');
-      return;
-    }
-    auth.createUserWithEmailAndPassword(email, pass)
-      .then(() => {
-        alert('Usuário cadastrado com sucesso! Você já está logado.');
-        afterLogin();
-      })
-      .catch(err => {
-        alert('Erro no cadastro: ' + err.message);
-      });
-  }
-
-  // Após login bem-sucedido
-  function afterLogin() {
-    document.getElementById('loginModal').style.display = 'none';
-    document.getElementById('mainContent').style.display = 'block';
-    document.getElementById('btnLogout').style.display = 'inline-block';
-    renderProducts();
-    renderCombos();
-  }
-
-  // Logout
-  function logout() {
-    auth.signOut().then(() => {
-      document.getElementById('loginModal').style.display = 'flex';
-      docu<script>
-  // Inicializa Firebase
-  firebase.initializeApp({
-    apiKey: "AIzaSyDwBokVIhJ2QJ1c8CnPuI60YnfeTdlCoEo",
-    authDomain: "boostmidia-admin.firebaseapp.com",
-    projectId: "boostmidia-admin",
-    storageBucket: "boostmidia-admin.appspot.com",
-    messagingSenderId: "276784965090",
-    appId: "1:276784965090:web:876665634014edc2e585bb"
-  });
-  const auth = firebase.auth();
-
-  // Lista dos produtos individuais
-  const products = [
-    {id:"youtube", name:"YouTube Premium", price:15, img:"https://img.icons8.com/color/96/youtube-premium.png", desc:"R$15,00/mês"},
-    {id:"netflix", name:"Netflix", price:20, img:"https://img.icons8.com/color/96/netflix.png", desc:"R$20,00/mês"},
-    {id:"prime", name:"Prime Video", price:10, img:"https://img.icons8.com/color/96/amazon-prime-video.png", desc:"R$10,00/mês"},
-    {id:"disney", name:"Disney+", price:12, img:"https://img.icons8.com/color/96/disney-plus.png", desc:"R$12,00/mês"},
-    {id:"hbo", name:"HBO Max", price:15, img:"https://img.icons8.com/color/96/hbo.png", desc:"R$15,00/mês"},
-    {id:"paramount", name:"Paramount+", price:10, img:"https://img.icons8.com/color/96/paramount-plus.png", desc:"R$10,00/mês"},
-    {id:"spotify", name:"Spotify Premium", price:50, img:"https://img.icons8.com/color/96/spotify.png", desc:"R$50,00/mês"}
-  ];
-
-  // Combos promocionais
-  const combos = [
-    {
-      id:"combo1",
-      name:"Combo Streaming Básico",
-      price: 40,
-      items:["Netflix + Prime Video + Disney+"],
-      img:"https://img.icons8.com/color/96/tv-show.png",
-      desc:"3 contas premium por R$40,00/mês"
-    },
-    {
-      id:"combo2",
-      name:"Combo Streaming Total",
-      price: 75,
-      items:["Netflix + Prime Video + Disney+ + HBO Max + Paramount+"],
-      img:"https://img.icons8.com/color/96/multimedia.png",
-      desc:"5 contas premium por R$75,00/mês"
-    }
-  ];
-
-  // Variáveis controle
-  let currentDiscount = 0;
-  let discountPercent = 0;
-
-  // Função para montar cards dos produtos
-  function renderProducts() {
-    const container = document.getElementById('productsGrid');
-    container.innerHTML = '';
-    products.forEach(prod => {
-      const priceFinal = (prod.price * (1 - discountPercent/100)).toFixed(2);
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <img src="${prod.img}" alt="${prod.name}" />
-        <h3>${prod.name}</h3>
-        <p>${prod.desc}</p>
-        <p><strong>R$ ${priceFinal}</strong></p>
-        <a class="btnBuy" href="https://wa.me/5565999468323?text=Olá,%20quero%20comprar%20${encodeURIComponent(prod.name)}%20por%20R$${priceFinal}" target="_blank">Comprar via WhatsApp</a>
-      `;
-      container.appendChild(card);
-    });
-  }
-
-  // Função para montar combos
-  function renderCombos() {
-    const container = document.getElementById('combosGrid');
-    container.innerHTML = '';
-    combos.forEach(combo => {
-      const priceFinal = (combo.price * (1 - discountPercent/100)).toFixed(2);
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <img src="${combo.img}" alt="${combo.name}" />
-        <h3>${combo.name}</h3>
-        <p>${combo.desc}</p>
-        <p><strong>R$ ${priceFinal}</strong></p>
-        <a class="btnBuy" href="https://wa.me/5565999468323?text=Olá,%20quero%20comprar%20o%20${encodeURIComponent(combo.name)}%20por%20R$${priceFinal}" target="_blank">Comprar via WhatsApp</a>
-      `;
-      container.appendChild(card);
-    });
-  }
-
-  // Função para aplicar cupom BOOST25 (20% desconto)
-  function applyCoupon() {
-    const input = document.getElementById('couponInput');
-    const msg = document.getElementById('discountMsg');
-    if(input.value.toUpperCase() === 'BOOST25') {
-      discountPercent = 20;
-      msg.textContent = 'Cupom BOOST25 aplicado! Você ganhou 20% de desconto.';
-      renderProducts();
-      renderCombos();
-    } else {
-      discountPercent = 0;
-      msg.textContent = 'Cupom inválido.';
-      renderProducts();
-      renderCombos();
-    }
-  }
-
-  // Troca tema claro/escuro
-  function toggleTheme() {
-    const body = document.body;
-    if(body.dataset.theme === 'dark') {
-      body.dataset.theme = 'light';
-    } else {
-      body.dataset.theme = 'dark';
-    }
-  }
-
-  // Login com Firebase
-  function login() {
-    const email = document.getElementById('email').value.trim();
-    const pass = document.getElementById('password').value.trim();
-    if(email === '' || pass === '') {
-      alert('Por favor, preencha email e senha.');
-      return;
-    }
-    auth.signInWithEmailAndPassword(email, pass)
-      .then(() => {
-        afterLogin();
-      })
-      .catch(err => {
-        alert('Erro no login: ' + err.message);
-      });
-  }
-
-  // Cadastro com Firebase
-  function register() {
-    const email = document.getElementById('email').value.trim();
-    const pass = document.getElementById('password').value.trim();
-    if(email === '' || pass === '') {
-      alert('Por favor, preencha email e senha.');
-      return;
-    }
-    auth.createUserWithEmailAndPassword(email, pass)
-      .then(() => {
-        alert('Usuário cadastrado com sucesso! Você já está logado.');
-        afterLogin();
-      })
-      .catch(err => {
-        alert('Erro no cadastro: ' + err.message);
-      });
-  }
-
-  // Após login bem-sucedido
-  function afterLogin() {
-    document.getElementById('loginModal').style.display = 'none';
-    document.getElementById('mainContent').style.display = 'block';
-    document.getElementById('btnLogout').style.display = 'inline-block';
-    renderProducts();
-    renderCombos();
-  }
-
-  // Logout
-  function logout() {
-    auth.signOut().then(() => {
-      document.getElementById('loginModal').style.display = 'flex';
-      document.getElementById('mainContent').style.display = 'none';
-      document.getElementById('btnLogout').style.display = 'none';
-      document.getElementById('discountMsg').textContent = '';
-      document.getElementById('couponInput').value = '';
-      discountPercent = 0;
-    });
-  }
-
-  // Verifica se já está logado ao carregar
-  auth.onAuthStateChanged(user => {
-    if(user) {
-      afterLogin();
-    } else {
-      document.getElementById('loginModal').style.display = 'flex';
-      document.getElementById('mainContent').style.display = 'none';
-      document.getElementById('btnLogout').style.display = 'none';
-    }
-  });
-
-</script>ment.getElementById('mainContent').style.display = 'none';
-      document.getElementById('btnLogout').style.display = 'none';
-      document.getElementById('discountMsg').textContent = '';
-      document.getElementById('couponInput').value = '';
-      discountPercent = 0;
-    });
-  }
-
-  // Verifica se já está logado ao carregar
-  auth.onAuthStateChanged(user => {
-    if(user) {
-      afterLogin();
-    } else {
-      document.getElementById('loginModal').style.display = 'flex';
-      document.getElementById('mainContent').style.display = 'none';
-      document.getElementById('btnLogout').style.display = 'none';
-    }
-  });
-
-</script>
-
-  // Logout
-  function logout() {
-    auth.signOut().then(() => {
-      document.getElementById('loginModal').style.display = 'flex';
-      document.getElementById('mainContent').style.display = 'none';
-      document.getElementById('btnLogout').style.display = 'none';
-      document.getElementById('discountMsg').textContent = '';
-      document.getElementById('couponInput').value = '';
-      discountPercent = 0;
-    });
-  }
-
-  // Verifica se já está logado ao carregar
-  auth.onAuthStateChanged(user => {
-    if(user) {
-      afterLogin();
-    } else {
-      document.getElementById('loginModal').style.display = 'flex';
-      document.getElementById('mainContent').style.display = 'none';
-      document.getElementById('btnLogout').style.display = 'none';
-    }
-  });
-
-          </script>
