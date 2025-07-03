@@ -1,65 +1,137 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <title>Boost Media</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: Arial, sans-serif; background: #0f172a; color: white; margin: 0; padding: 0; }
-    header, nav, section, footer { padding: 20px; text-align: center; }
-    nav a { margin: 0 10px; color: #a5f3fc; text-decoration: none; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 20px; }
-    .card { background: #1e293b; padding: 20px; border-radius: 10px; }
+    :root {
+      --bg: #0f172a;
+      --text: white;
+      --card: #1e293b;
+      --accent: #25d366;
+      --highlight: #a5f3fc;
+    }
+    [data-theme="light"] {
+      --bg: #f1f5f9;
+      --text: #0f172a;
+      --card: #ffffff;
+      --accent: #25d366;
+      --highlight: #2563eb;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      transition: background 0.3s, color 0.3s;
+    }
+    header, nav, section, footer {
+      padding: 20px;
+      text-align: center;
+    }
+    nav a {
+      margin: 0 10px;
+      color: var(--highlight);
+      text-decoration: none;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .card {
+      background: var(--card);
+      padding: 20px;
+      border-radius: 10px;
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card img {
+      width: 60px;
+      display: block;
+      margin: 0 auto 10px;
+    }
     .card input { margin-right: 10px; }
-    .faq-item { background: #1e293b; margin: 10px auto; padding: 10px; border-radius: 8px; width: 80%; text-align: left; }
-    .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background: #25d366; border-radius: 50%; width: 60px; height: 60px; text-align: center; line-height: 60px; }
+    .faq-item {
+      background: var(--card);
+      margin: 10px auto;
+      padding: 10px;
+      border-radius: 8px;
+      width: 80%;
+      text-align: left;
+    }
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--accent);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      text-align: center;
+      line-height: 60px;
+    }
     #cupom-message { margin-top: 10px; font-weight: bold; }
+    .modo-btn { position: fixed; top: 10px; right: 10px; background: var(--accent); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
+    .combos { background: var(--card); margin: 20px auto; padding: 20px; border-radius: 10px; }
+    .combos h3 { margin: 0; }
   </style>
 </head>
-<body>
+<body><button class="modo-btn" onclick="alternarTema()">🌓 Modo Claro/Escuro</button>
 
 <header>
   <h1>Boost Media</h1>
   <p>Seu portal de contas premium!</p>
-</header>
-
-<nav>
+</header><nav>
   <a href="#produtos">Produtos</a>
+  <a href="#combos">Combos</a>
   <a href="#faq">FAQ</a>
-</nav>
-
-<section id="produtos">
+  <a href="#politica">Política de Uso</a>
+</nav><section id="produtos">
   <h2>Produtos</h2>
-  <div class="grid">
-    <label class="card"><input type="checkbox" value="Netflix" data-price="20">Netflix - R$20</label>
-    <label class="card"><input type="checkbox" value="HBO" data-price="15">HBO Max - R$15</label>
-    <label class="card"><input type="checkbox" value="Spotify" data-price="50">Spotify - R$50</label>
+  <div class="grid" id="produtos-lista">
+    <!-- Produtos com imagens -->
+    <label class="card"><input type="checkbox" value="YouTube Premium" data-price="15"><img src="https://img.icons8.com/color/96/youtube-premium.png"><strong>YouTube Premium</strong><br>R$15</label>
+    <label class="card"><input type="checkbox" value="Netflix" data-price="20"><img src="https://img.icons8.com/color/96/netflix.png"><strong>Netflix</strong><br>R$20</label>
+    <label class="card"><input type="checkbox" value="Prime Video" data-price="10"><img src="https://img.icons8.com/color/96/amazon-prime-video.png"><strong>Prime Video</strong><br>R$10</label>
+    <label class="card"><input type="checkbox" value="Disney+" data-price="12"><img src="https://img.icons8.com/color/96/disney-plus.png"><strong>Disney+</strong><br>R$12</label>
+    <label class="card"><input type="checkbox" value="HBO Max" data-price="15"><img src="https://img.icons8.com/color/96/hbo.png"><strong>HBO Max</strong><br>R$15</label>
+    <label class="card"><input type="checkbox" value="Paramount+" data-price="10"><img src="https://img.icons8.com/color/96/paramount-plus.png"><strong>Paramount+</strong><br>R$10</label>
+    <label class="card"><input type="checkbox" value="Spotify Premium" data-price="50"><img src="https://img.icons8.com/color/96/spotify.png"><strong>Spotify Premium</strong><br>R$50/ano</label>
+    <label class="card"><input type="checkbox" value="Youcine" data-price="15"><img src="https://img.icons8.com/color/96/tv.png"><strong>Youcine</strong><br>R$15 único</label>
   </div>
-</section>
-
-<section id="cupom-section">
+</section><section class="combos" id="combos">
+  <h2>🔥 Combos Promocionais</h2>
+  <div class="grid">
+    <label class="card"><input type="checkbox" value="Combo Netflix + Spotify" data-price="29.9"><strong>Netflix + Spotify</strong><br>R$29,90</label>
+    <label class="card"><input type="checkbox" value="Combo HBO + Prime" data-price="22.9"><strong>HBO + Prime Video</strong><br>R$22,90</label>
+    <label class="card"><input type="checkbox" value="Combo Disney + YouTube" data-price="25"><strong>Disney+ + YouTube</strong><br>R$25,00</label>
+  </div>
+</section><section id="cupom-section">
   <input type="text" id="input-cupom" placeholder="Digite seu cupom">
   <button id="btn-aplicar-cupom">Aplicar Cupom</button>
   <div id="cupom-message"></div>
-</section>
-
-<button id="finalizar-pedido">Finalizar Pedido (R$ 0,00)</button>
+</section><button id="finalizar-pedido">🛒 Finalizar Pedido (R$ 0,00)</button>
 
 <section id="faq">
   <h2>Perguntas Frequentes</h2>
   <div class="faq-item">🕐 Entrega após o pagamento.</div>
   <div class="faq-item">💳 Pagamento via PIX.</div>
-</section>
-
-<footer>
+  <div class="faq-item">📞 Suporte via WhatsApp.</div>
+</section><section id="politica">
+  <h2>📜 Política de Uso</h2>
+  <div class="faq-item">
+    Todas as contas são entregues digitalmente após a confirmação do pagamento. Não é permitido compartilhar dados com terceiros não autorizados. O não cumprimento poderá resultar no cancelamento sem reembolso. A Boost Media garante suporte técnico básico durante a validade da assinatura.
+  </div>
+</section><footer>
   <p>WhatsApp: (65) 99946-8323</p>
-</footer>
-
-<a class="whatsapp-float" href="https://wa.me/5565999468323" target="_blank">
+</footer><a class="whatsapp-float" href="https://wa.me/5565999468323" target="_blank">
   <img src="https://img.icons8.com/color/48/whatsapp--v1.png" alt="WhatsApp" style="width:30px; margin-top:15px;"/>
-</a>
-
-<script>
+</a><script>
   const produtos = document.querySelectorAll('input[type="checkbox"]');
   const finalizarBtn = document.getElementById('finalizar-pedido');
   const cupomInput = document.getElementById('input-cupom');
@@ -70,16 +142,14 @@
   function calcularTotal() {
     let total = 0;
     produtos.forEach(p => {
-      if (p.checked) {
-        total += parseFloat(p.dataset.price);
-      }
+      if (p.checked) total += parseFloat(p.dataset.price);
     });
     if (desconto > 0) total *= (1 - desconto / 100);
     return total.toFixed(2);
   }
 
   function atualizarBotao() {
-    finalizarBtn.textContent = `Finalizar Pedido (R$ ${calcularTotal()})`;
+    finalizarBtn.textContent = `🛒 Finalizar Pedido (R$ ${calcularTotal()})`;
   }
 
   produtos.forEach(p => p.addEventListener('change', atualizarBotao));
@@ -116,7 +186,10 @@
     const msg = `Olá, quero comprar:\n- ${itens.join("\n- ")}\nTotal com desconto: R$ ${total}`;
     window.open(`https://wa.me/5565999468323?text=${encodeURIComponent(msg)}`);
   });
-</script>
 
-</body>
+  function alternarTema() {
+    const tema = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", tema);
+  }
+</script></body>
 </html>
