@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Boost Media - Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    #container {
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 10px;
+      width: 320px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+    input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+    }
+    button {
+      background-color: #10b981;
+      border: none;
+      padding: 12px 20px;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #059669;
+    }
+    #message {
+      margin-top: 15px;
+      min-height: 24px;
+      font-weight: bold;
+    }
+    #switch-login {
+      margin-top: 15px;
+      color: #a5f3fc;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h2 id="form-title">Login</h2>
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Senha" required />
+    <button id="action-btn">Entrar</button>
+    <div id="message"></div>
+    <div id="switch-login">Não tem conta? Cadastre-se aqui</div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDBTpV4najUw7DtI5nCXfsb9wHLlgnnsj0",
+      authDomain: "boostmidia-874f1.firebaseapp.com",
+      projectId: "boostmidia-874f1",
+      storageBucket: "boostmidia-874f1.firebasestorage.app",
+      messagingSenderId: "182351458835",
+      appId: "1:182351458835:web:a89b0c677574c39537c5e6",
+      measurementId: "G-BGDD9GBH8H"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const actionBtn = document.getElementById('action-btn');
+    const messageDiv = document.getElementById('message');
+    const switchLogin = document.getElementById('switch-login');
+    const formTitle = document.getElementById('form-title');
+
+    let isLogin = true;
+
+    function mostrarMensagem(msg, tipo = 'error') {
+      messageDiv.textContent = msg;
+      messageDiv.style.color = tipo === 'error' ? '#f87171' : '#34d399';
+    }
+
+    actionBtn.addEventListener('click', () => {
+      const email = emailInput.value.trim();
+      const senha = passwordInput.value.trim();
+      if (!email || !senha) {
+        mostrarMensagem('Preencha email e senha.');
+        return;
+      }
+      if (isLogin) {
+        auth.signInWithEmailAndPassword(email, senha)
+          .then(() => mostrarMensagem('Login realizado com sucesso!', 'success'))
+          .catch(e => mostrarMensagem('Erro: ' + e.message));
+      } else {
+        auth.createUserWithEmailAndPassword(email, senha)
+          .then(() => {
+            mostrarMensagem('Conta criada com sucesso! Faça login.', 'success');
+            isLogin = true;
+            formTitle.textContent = 'Login';
+            actionBtn.textContent = 'Entrar';
+            switchLogin.textContent = 'Não tem conta? Cadastre-se aqui';
+          })
+          .catch(e => mostrarMensagem('Erro: ' + e.message));
+      }
+    });
+
+    switchLogin.addEventListener('click', () => {
+      isLogin = !isLogin;
+      if (isLogin) {
+        formTitle.textContent = 'Login';
+        actionBtn.textContent = 'Entrar';
+        switchLogin.textContent = 'Não tem conta? Cadastre-se aqui';
+      } else {
+        formTitle.textContent = 'Cadastro';
+        actionBtn.textContent = 'Cadastrar';
+        switchLogin.textContent = 'Já tem conta? Faça login aqui';
+      }
+      mostrarMensagem('');
+      emailInput.value = '';
+      passwordInput.value = '';
+    });
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        mostrarMensagem(`Logado como: ${user.email}`, 'success');
+      } else {
+        mostrarMensagem('');
+      }
+    });
+  </script>
+</body>
+</html>
