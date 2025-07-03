@@ -1,18 +1,63 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin - Boost Media</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #0f172a; color: #f1f5f9; padding: 20px; }
-    .container { max-width: 500px; margin: auto; background: #1e293b; padding: 30px; border-radius: 12px; }
-    input, button {
-      width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: none;
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #f1f5f9;
+      padding: 20px;
+      transition: 0.3s;
     }
-    input { background: #334155; color: #f1f5f9; }
-    button { background: #4f46e5; color: white; cursor: pointer; font-weight: bold; }
+    .light-mode {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 12px;
+    }
+    .light-mode .container {
+      background: #e2e8f0;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+    }
+    input {
+      background: #334155;
+      color: #f1f5f9;
+    }
+    .light-mode input {
+      background: #cbd5e1;
+      color: #1e293b;
+    }
+    button {
+      background: #4f46e5;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
     .logout { background: #ef4444; margin-top: 20px; }
+    .modo { background: #14b8a6; margin-bottom: 20px; }
+    .produto-card {
+      background: #0f172a;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .light-mode .produto-card {
+      background: #ffffff;
+      color: #0f172a;
+    }
   </style>
 </head>
 <body>
@@ -21,22 +66,17 @@
     <input type="email" id="email" placeholder="Email" />
     <input type="password" id="password" placeholder="Senha" />
     <button onclick="login()">Entrar</button>
-  </div>
-
-  <div class="container" id="painel" style="display: none;">
+  </div>  <div class="container" id="painel" style="display: none;">
+    <button class="modo" onclick="toggleModo()">Modo Claro/Escuro</button>
     <h2>Cadastrar Produto</h2>
     <input type="text" id="nome" placeholder="Nome do Produto">
     <input type="text" id="preco" placeholder="Preço (ex: 15.00)">
     <input type="text" id="img" placeholder="Link da Imagem">
     <button onclick="cadastrarProduto()">Cadastrar</button>
+    <h3>Produtos Cadastrados</h3>
+    <div id="lista-produtos"></div>
     <button class="logout" onclick="logout()">Sair</button>
-  </div>
-
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
-  <script>
+  </div>  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyDwBokVIhJ2QJ1c8CnPuI60YnfeTdlCoEo",
       authDomain: "boostmidia-admin.firebaseapp.com",
@@ -54,6 +94,7 @@
       if (user) {
         document.getElementById('login').style.display = 'none';
         document.getElementById('painel').style.display = 'block';
+        carregarProdutos();
       }
     });
 
@@ -73,16 +114,45 @@
       const preco = document.getElementById("preco").value;
       const img = document.getElementById("img").value;
       if (!nome || !preco || !img) return alert("Preencha todos os campos.");
-
       db.collection("produtos").add({ nome, preco, img })
         .then(() => {
           alert("Produto cadastrado com sucesso!");
           document.getElementById("nome").value = "";
           document.getElementById("preco").value = "";
           document.getElementById("img").value = "";
+          carregarProdutos();
         })
         .catch(e => alert("Erro ao cadastrar: " + e.message));
     }
-  </script>
-</body>
+
+    function carregarProdutos() {
+      const lista = document.getElementById("lista-produtos");
+      lista.innerHTML = "";
+      db.collection("produtos").get().then(snapshot => {
+        snapshot.forEach(doc => {
+          const p = doc.data();
+          lista.innerHTML += `
+            <div class="produto-card">
+              <strong>${p.nome}</strong><br>
+              Preço: R$ ${parseFloat(p.preco).toFixed(2)}<br>
+              <button onclick="excluirProduto('${doc.id}')">Excluir</button>
+            </div>
+          `;
+        });
+      });
+    }
+
+    function excluirProduto(id) {
+      if (confirm("Tem certeza que deseja excluir este produto?")) {
+        db.collection("produtos").doc(id).delete().then(() => {
+          alert("Produto removido.");
+          carregarProdutos();
+        });
+      }
+    }
+
+    function toggleModo() {
+      document.body.classList.toggle("light-mode");
+    }
+  </script></body>
 </html>
