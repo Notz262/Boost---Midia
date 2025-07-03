@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Boost Media</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #0f172a; color: #f1f5f9; padding: 20px; }
+    .container { max-width: 500px; margin: auto; background: #1e293b; padding: 30px; border-radius: 12px; }
+    input, button {
+      width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: none;
+    }
+    input { background: #334155; color: #f1f5f9; }
+    button { background: #4f46e5; color: white; cursor: pointer; font-weight: bold; }
+    .logout { background: #ef4444; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container" id="login">
+    <h2>Login do Admin</h2>
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Senha" />
+    <button onclick="login()">Entrar</button>
+  </div>
+
+  <div class="container" id="painel" style="display: none;">
+    <h2>Cadastrar Produto</h2>
+    <input type="text" id="nome" placeholder="Nome do Produto">
+    <input type="text" id="preco" placeholder="Preço (ex: 15.00)">
+    <input type="text" id="img" placeholder="Link da Imagem">
+    <button onclick="cadastrarProduto()">Cadastrar</button>
+    <button class="logout" onclick="logout()">Sair</button>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDwBokVIhJ2QJ1c8CnPuI60YnfeTdlCoEo",
+      authDomain: "boostmidia-admin.firebaseapp.com",
+      projectId: "boostmidia-admin",
+      storageBucket: "boostmidia-admin.appspot.com",
+      messagingSenderId: "276784965090",
+      appId: "1:276784965090:web:876665634014edc2e585bb"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('painel').style.display = 'block';
+      }
+    });
+
+    function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      auth.signInWithEmailAndPassword(email, password).catch(e => alert("Erro: " + e.message));
+    }
+
+    function logout() {
+      auth.signOut();
+      location.reload();
+    }
+
+    function cadastrarProduto() {
+      const nome = document.getElementById("nome").value;
+      const preco = document.getElementById("preco").value;
+      const img = document.getElementById("img").value;
+      if (!nome || !preco || !img) return alert("Preencha todos os campos.");
+
+      db.collection("produtos").add({ nome, preco, img })
+        .then(() => {
+          alert("Produto cadastrado com sucesso!");
+          document.getElementById("nome").value = "";
+          document.getElementById("preco").value = "";
+          document.getElementById("img").value = "";
+        })
+        .catch(e => alert("Erro ao cadastrar: " + e.message));
+    }
+  </script>
+</body>
+</html>
