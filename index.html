@@ -3,355 +3,152 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Boost Media - Loja Premium</title>
+<title>Boost Media Login + Loja</title>
 <style>
-  /* Reset básico */
+  /* Reset */
   * {
     box-sizing: border-box;
-    margin: 0; padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
-  html, body {
-    height: 100%;
+  body {
+    margin: 0; padding: 0;
+    font-family: Arial, sans-serif;
     background-color: #111827;
-    color: #f1f1f1;
-    transition: background-color 0.4s ease, color 0.4s ease;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    transition: background-color 0.3s, color 0.3s;
   }
   body.light {
     background-color: #f9fafb;
-    color: #111827;
+    color: #111;
   }
 
-  /* Login flutuante */
+  /* Login container */
   #loginSection {
-    max-width: 380px;
-    margin: 10vh auto 50vh;
     background: #1e293b;
-    border-radius: 20px;
-    padding: 32px 28px;
-    box-shadow:
-      0 0 20px rgba(79, 70, 229, 0.7),
-      0 12px 35px rgba(79, 70, 229, 0.4);
-    animation: floatUp 1s ease forwards;
-    position: relative;
-    z-index: 20;
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px #4f46e5;
+    width: 320px;
+    text-align: center;
   }
   body.light #loginSection {
-    background: #fff;
+    background: white;
     color: #111;
-    box-shadow:
-      0 0 20px rgba(59, 130, 246, 0.5),
-      0 12px 35px rgba(59, 130, 246, 0.25);
-  }
-  @keyframes floatUp {
-    0% { transform: translateY(40px); opacity: 0;}
-    100% { transform: translateY(0); opacity: 1;}
+    box-shadow: 0 0 20px #3b82f6;
   }
   #loginSection h2 {
+    margin-bottom: 25px;
+    font-weight: 700;
     color: #a5f3fc;
-    margin-bottom: 26px;
-    font-weight: 900;
-    text-align: center;
-    letter-spacing: 1.5px;
-    text-shadow: 0 0 12px #4f46e5;
   }
   body.light #loginSection h2 {
     color: #2563eb;
-    text-shadow: none;
   }
   #loginSection input {
     width: 100%;
-    padding: 15px 20px;
-    border-radius: 14px;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border-radius: 10px;
     border: none;
-    margin-bottom: 18px;
-    font-size: 1.05em;
+    font-size: 1em;
     background: #111827;
-    color: #f1f1f1;
-    box-shadow: inset 0 0 10px #4f46e5;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    color: white;
   }
   body.light #loginSection input {
     background: #f0f4f8;
     color: #111;
-    box-shadow: inset 0 0 10px #3b82f6;
-  }
-  #loginSection input:focus {
-    outline: none;
-    box-shadow: 0 0 14px #4f46e5;
-  }
-  body.light #loginSection input:focus {
-    box-shadow: 0 0 14px #3b82f6;
   }
   #loginSection button {
     width: 100%;
-    background: #4f46e5;
+    padding: 14px;
     border: none;
-    padding: 16px 0;
-    font-weight: 900;
+    background: #4f46e5;
     color: white;
-    border-radius: 18px;
+    font-weight: 700;
+    border-radius: 15px;
     cursor: pointer;
-    font-size: 1.15em;
-    box-shadow: 0 0 18px #4f46e5;
-    transition: background-color 0.3s ease;
   }
   #loginSection button:hover {
     background: #4338ca;
   }
-  body.light #loginSection button {
-    background: #3b82f6;
-    box-shadow: 0 0 18px #3b82f6;
-  }
   body.light #loginSection button:hover {
     background: #2563eb;
   }
-  #loginSection p.toggle {
-    margin-top: 20px;
-    text-align: center;
-    color: #38bdf8;
-    font-weight: 700;
-    cursor: pointer;
-    user-select: none;
-  }
-  body.light #loginSection p.toggle {
-    color: #2563eb;
-  }
+
   #loginMsg {
-    margin-top: 12px;
-    min-height: 24px;
-    font-weight: 700;
+    margin-top: 10px;
+    height: 22px;
     color: #ef4444;
-    text-align: center;
-    text-shadow: 0 0 6px #ef4444;
-  }
-  body.light #loginMsg {
-    color: #b91c1c;
-    text-shadow: none;
   }
 
-  /* Barra topo (aparece só quando logado) */
-  #topBar {
-    display: none;
-    background: #4f46e5;
-    color: white;
-    padding: 12px 22px;
-    font-weight: 700;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 150;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.35);
-  }
-  #topBar span {
-    user-select: none;
-  }
-  #topBar button {
-    background: #10b981;
-    border: none;
-    padding: 9px 18px;
-    border-radius: 10px;
-    font-weight: 700;
-    cursor: pointer;
-    color: white;
-    transition: background-color 0.3s;
-    margin-left: 10px;
-  }
-  #topBar button:hover {
-    background: #059669;
-  }
-  body.light #topBar {
-    background: #3b82f6;
-  }
-
-  /* Botão menu 3 pontinhos */
-  #menuBtn {
-    background: transparent;
-    border: none;
-    font-size: 30px;
-    color: white;
-    cursor: pointer;
-    position: relative;
-    user-select: none;
-    padding: 0 10px;
-  }
-  body.light #menuBtn {
-    color: #111827;
-  }
-  #menuDropdown {
-    display: none;
-    position: absolute;
-    right: 8px;
-    top: 38px;
-    background: #1e293b;
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-    min-width: 210px;
-    z-index: 300;
-    overflow: hidden;
-    animation: dropdownFade 0.35s ease forwards;
-  }
-  body.light #menuDropdown {
-    background: #e0e7ff;
-    color: #111;
-    box-shadow: 0 5px 20px rgba(59,130,246,0.5);
-  }
-  @keyframes dropdownFade {
-    from {opacity: 0; transform: translateY(-12px);}
-    to {opacity: 1; transform: translateY(0);}
-  }
-  #menuDropdown a, #menuDropdown button {
-    display: block;
-    padding: 14px 20px;
-    color: inherit;
-    text-decoration: none;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    font-weight: 700;
-    background: transparent;
-    cursor: pointer;
-    text-align: left;
-    transition: background-color 0.3s;
-    font-size: 1em;
-  }
-  #menuDropdown a:hover, #menuDropdown button:hover {
-    background: #4f46e5;
-    color: white;
-  }
-  body.light #menuDropdown a:hover, body.light #menuDropdown button:hover {
-    background: #2563eb;
-    color: white;
-  }
-  #menuDropdown a:last-child, #menuDropdown button:last-child {
-    border-bottom: none;
-  }
-  #menuDropdown input {
-    margin: 8px 20px 12px 20px;
-    padding: 10px 14px;
-    border-radius: 12px;
-    border: none;
-    font-weight: 600;
-    font-size: 1em;
-    background: #111827;
-    color: #f1f1f1;
-    box-shadow: inset 0 0 7px #4f46e5;
-    transition: background-color 0.3s, color 0.3s;
-    width: calc(100% - 40px);
-  }
-  body.light #menuDropdown input {
-    background: #f0f4f8;
-    color: #111;
-    box-shadow: inset 0 0 7px #3b82f6;
-  }
-  #menuDropdown input:focus {
-    outline: none;
-    box-shadow: 0 0 11px #4f46e5;
-  }
-  body.light #menuDropdown input:focus {
-    box-shadow: 0 0 11px #3b82f6;
-  }
-
-  /* Área da loja */
+  /* Loja */
   #shopSection {
-    max-width: 1020px;
-    margin: 45px auto 80px;
-    padding: 0 20px;
-    opacity: 0;
-    animation: fadeInUp 1s ease forwards;
+    display: none;
+    max-width: 900px;
+    padding: 20px;
+    background: #1e293b;
+    border-radius: 15px;
+    box-shadow: 0 0 25px #4f46e5;
+    color: white;
   }
-  @keyframes fadeInUp {
-    to {opacity: 1; transform: translateY(0);}
-    from {opacity: 0; transform: translateY(40px);}
+  body.light #shopSection {
+    background: white;
+    color: #111;
+    box-shadow: 0 0 25px #3b82f6;
   }
   #shopSection h1 {
     text-align: center;
+    margin-bottom: 25px;
     font-weight: 900;
     color: #a5f3fc;
-    text-shadow: 0 0 14px #4f46e5;
-    margin-bottom: 34px;
-    font-size: 2.8em;
   }
   body.light #shopSection h1 {
     color: #2563eb;
-    text-shadow: none;
   }
 
-  /* Grid produtos */
-  .products-grid {
+  .product-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-    gap: 28px;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap: 20px;
   }
   .product-card {
-    background: #1e293b;
-    border-radius: 20px;
-    padding: 22px 20px;
+    background: #111827;
+    padding: 15px;
+    border-radius: 15px;
     text-align: center;
-    box-shadow: 0 0 15px rgba(0,0,0,0.4);
-    transition: transform 0.35s cubic-bezier(.4,0,.2,1), box-shadow 0.35s ease;
-    cursor: pointer;
-    user-select: none;
-    position: relative;
-    overflow: hidden;
-  }
-  .product-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 14px 26px rgba(79, 70, 229, 0.9);
+    box-shadow: 0 0 12px #4f46e5;
   }
   body.light .product-card {
     background: #f9fafb;
-    color: #111;
-    box-shadow: 0 0 25px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 0 12px #3b82f6;
   }
-  body.light .product-card:hover {
-    box-shadow: 0 14px 30px rgba(59, 130, 246, 0.8);
-  }
-
-  /* Imagem produto */
   .product-card img {
-    max-height: 90px;
-    margin-bottom: 18px;
-    filter: drop-shadow(0 0 4px rgba(79, 70, 229, 0.6));
-    transition: filter 0.3s ease;
+    max-height: 80px;
+    margin-bottom: 12px;
   }
-  body.light .product-card img {
-    filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.7));
-  }
-  .product-card:hover img {
-    filter: drop-shadow(0 0 10px #fbbf24);
-  }
-
-  /* Título e preço */
   .product-card h3 {
-    font-weight: 900;
-    margin-bottom: 14px;
+    margin-bottom: 8px;
     color: #fcd34d;
-    font-size: 1.3em;
-    text-shadow: 0 0 8px #fbbf24;
   }
   body.light .product-card h3 {
     color: #ca8a04;
-    text-shadow: none;
   }
   .product-card p {
-    font-weight: 700;
-    font-size: 1.05em;
-    margin-bottom: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
   }
-
-  /* Botão comprar */
   .product-card button {
     background: #10b981;
     border: none;
-    padding: 14px 28px;
-    border-radius: 20px;
+    padding: 10px 16px;
+    border-radius: 15px;
+    font-weight: 700;
     color: white;
-    font-weight: 900;
     cursor: pointer;
-    box-shadow: 0 0 15px #10b981;
-    transition: background-color 0.3s ease;
-    font-size: 1.05em;
+    box-shadow: 0 0 10px #10b981;
   }
   .product-card button:hover {
     background: #059669;
@@ -359,142 +156,195 @@
 
   /* Carrinho */
   #cart {
-    background: #1e293b;
-    margin-top: 50px;
-    border-radius: 22px;
-    padding: 32px 36px;
-    box-shadow: 0 0 25px rgba(0,0,0,0.45);
-    max-width: 1020px;
-    margin-left: auto;
-    margin-right: auto;
-    font-weight: 700;
+    margin-top: 30px;
+    background: #111827;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px #4f46e5;
   }
   body.light #cart {
     background: #fff;
     color: #111;
-    box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 0 20px #3b82f6;
   }
   #cart h2 {
+    margin-bottom: 20px;
     color: #a5f3fc;
-    margin-bottom: 28px;
-    font-weight: 900;
-    font-size: 1.9em;
-    text-align: center;
   }
   body.light #cart h2 {
     color: #2563eb;
   }
-
   #cart-items {
-    max-height: 320px;
+    max-height: 220px;
     overflow-y: auto;
-    margin-bottom: 28px;
-    border-radius: 12px;
-    border: 2px solid #4f46e5;
-  }
-  body.light #cart-items {
-    border-color: #3b82f6;
   }
   .cart-item {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    background: #111827;
-    padding: 14px 24px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 8px 10px;
+    border-bottom: 1px solid #333;
     font-weight: 700;
-    font-size: 1.05em;
-    transition: background-color 0.3s;
   }
   body.light .cart-item {
-    background: #f3f4f6;
-    color: #111;
-    border-bottom: 1px solid #ddd;
+    border-color: #ccc;
   }
   .cart-item:last-child {
     border-bottom: none;
-  }
-  .cart-item span {
-    flex: 1;
-  }
-  .cart-item .price {
-    flex: 0 0 80px;
-    text-align: right;
-    color: #facc15;
   }
   .cart-item button {
     background: #ef4444;
     border: none;
     color: white;
-    border-radius: 12px;
-    padding: 9px 14px;
+    border-radius: 10px;
+    padding: 4px 10px;
     cursor: pointer;
-    font-weight: 900;
-    font-size: 1.05em;
-    transition: background-color 0.3s;
-    margin-left: 20px;
   }
   .cart-item button:hover {
     background: #b91c1c;
   }
 
-  /* Cupom - seção */
-  #couponSection {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin-top: 8px;
-  }
-  #couponInput {
-    padding: 14px 20px;
-    border-radius: 18px;
-    border: none;
-    font-size: 1.1em;
-    width: 240px;
-    box-shadow: inset 0 0 12px #4f46e5;
-    background: #111827;
-    color: #f1f1f1;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  body.light #couponInput {
-    background: #f0f4f8;
-    color: #111;
-    box-shadow: inset 0 0 12px #3b82f6;
-  }
-  #couponInput:focus {
-    outline: none;
-    box-shadow: 0 0 18px #4f46e5;
-  }
-  body.light #couponInput:focus {
-    box-shadow: 0 0 18px #3b82f6;
-  }
-  #applyCouponBtn {
-    background: #3b82f6;
-    border: none;
-    padding: 16px 26px;
-    border-radius: 18px;
+  #totalPrice {
+    text-align: right;
+    margin-top: 15px;
     font-weight: 900;
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 0 20px #3b82f6;
-    transition: background-color 0.3s;
-    font-size: 1.1em;
-  }
-  #applyCouponBtn:hover {
-    background: #2563eb;
-  }
-  #couponMsg {
-    margin-top: 12px;
-    text-align: center;
-    font-weight: 900;
-    font-size: 1.05em;
-    min-height: 28px;
+    font-size: 1.3em;
+    color: #fbbf24;
   }
 
-  /* Total e finalizar */
-  #totalPrice {
-    font-weight: 900;
-    font-size: 1.75em;
-    text-align: right;
-    margin-top: 24px;
-    color: #fbbf24;
+</style>
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <section id="loginSection">
+    <h2>Login Boost Media</h2>
+    <input type="email" id="email" placeholder="Seu e-mail" />
+    <input type="password" id="password" placeholder="Senha" />
+    <button id="loginBtn">Entrar</button>
+    <div id="loginMsg"></div>
+  </section>
+
+  <!-- LOJA -->
+  <section id="shopSection">
+    <h1>Loja Boost Media</h1>
+    <div class="product-list" id="productList">
+      <!-- Produtos vão aqui -->
+    </div>
+    <div id="cart">
+      <h2>Carrinho</h2>
+      <div id="cart-items"></div>
+      <div id="totalPrice">Total: R$ 0,00</div>
+    </div>
+  </section>
+
+<script>
+  // Usuário fixo só para testar o login (email + senha)
+  const user = { email: "cliente@boostmedia.com", password: "boost123" };
+
+  // Produtos exemplo
+  const products = [
+    {id:1, name:"Rotação de Braço 🔰", price: 950, img:"https://i.imgur.com/pZjXlKV.png", desc:"Aparelho para treino de rotação."},
+    {id:2, name:"Antídoto 🍶", price: 800, img:"https://i.imgur.com/8Q55FVl.png", desc:"Antídoto poderoso e rápido."},
+    {id:3, name:"Antibiótico 🧬", price: 450, img:"https://i.imgur.com/IDyUr7I.png", desc:"Dose única de antibiótico."},
+    {id:4, name:"Cobertura 🧂", price: 600, img:"https://i.imgur.com/VhMxz4d.png", desc:"Cobertura especial para sua receita."},
+    {id:5, name:"Mais Veneno ☠️", price: 890, img:"https://i.imgur.com/3PH5DoC.png", desc:"Veneno extra para seus desafios."},
+  ];
+
+  // Carrinho
+  let cart = [];
+  const BOOST_COUPON = "BOOST25";
+  let couponApplied = false;
+
+  // Elementos
+  const loginSection = document.getElementById("loginSection");
+  const shopSection = document.getElementById("shopSection");
+  const loginBtn = document.getElementById("loginBtn");
+  const loginMsg = document.getElementById("loginMsg");
+  const productList = document.getElementById("productList");
+  const cartItems = document.getElementById("cart-items");
+  const totalPriceEl = document.getElementById("totalPrice");
+
+  // Login função simples
+  loginBtn.addEventListener("click", () => {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    if(email === user.email && password === user.password){
+      loginMsg.textContent = "";
+      loginSection.style.display = "none";
+      shopSection.style.display = "block";
+      renderProducts();
+      updateCart();
+    } else {
+      loginMsg.textContent = "E-mail ou senha inválidos.";
+    }
+  });
+
+  // Renderiza produtos na loja
+  function renderProducts(){
+    productList.innerHTML = "";
+    products.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `
+        <img src="${p.img}" alt="${p.name}" />
+        <h3>${p.name}</h3>
+        <p>${p.desc}</p>
+        <p>R$ ${p.price.toFixed(2).replace('.',',')}</p>
+        <button onclick="addToCart(${p.id})">Comprar</button>
+      `;
+      productList.appendChild(card);
+    });
+  }
+
+  // Adicionar produto no carrinho
+  window.addToCart = function(productId){
+    const item = cart.find(i => i.id === productId);
+    if(item) {
+      item.qty++;
+    } else {
+      cart.push({id: productId, qty: 1});
+    }
+    updateCart();
+  }
+
+  // Atualiza carrinho
+  function updateCart(){
+    cartItems.innerHTML = "";
+    if(cart.length === 0){
+      cartItems.textContent = "Carrinho vazio.";
+      totalPriceEl.textContent = "Total: R$ 0,00";
+      return;
+    }
+    let total = 0;
+    cart.forEach(ci => {
+      const product = products.find(p => p.id === ci.id);
+      const price = product.price * ci.qty;
+      total += price;
+      const div = document.createElement("div");
+      div.className = "cart-item";
+      div.innerHTML = `
+        <span>${product.name} x${ci.qty}</span>
+        <span>R$ ${price.toFixed(2).replace('.',',')}</span>
+        <button onclick="removeFromCart(${product.id})">X</button>
+      `;
+      cartItems.appendChild(div);
+    });
+    // Aplica cupom se válido e não expirado
+    if(couponApplied){
+      total = total * 0.8; // 20% off
+    }
+    totalPriceEl.textContent = `Total: R$ ${total.toFixed(2).replace('.',',')}`;
+  }
+
+  // Remove item do carrinho
+  window.removeFromCart = function(productId){
+    cart = cart.filter(i => i.id !== productId);
+    updateCart();
+  }
+
+  // TESTE: Você pode estender pra cupom e outras funções depois
+
+</script>
+
+</body>
+</html>
