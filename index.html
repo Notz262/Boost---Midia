@@ -135,7 +135,6 @@
       padding: 20px;
       background: #0f172a;
       border-top: 2px solid #334155;
-      display: none;
     }
     #carrinho-lista {
       margin-bottom: 15px;
@@ -151,38 +150,43 @@
   <input type="email" id="email" placeholder="Email">
   <input type="password" id="password" placeholder="Senha">
   <button onclick="login()">Entrar</button>
-</div><div id="site-container" class="hidden">
-<header>
-  <h1>Boost Media</h1>
-  <p>Seu portal de contas premium com entrega rápida e preço justo!</p>
-</header><nav>
-  <a href="#produtos">Produtos</a>
-  <a href="#combos">Combos</a>
-  <a href="#faq">FAQ</a>
-</nav><section id="produtos">
-  <h2>📺 Produtos Individuais</h2>
-  <div class="grid" id="produtos-grid"></div>
-</section><section id="carrinho-container">
-  <h2>🛒 Carrinho</h2>
-  <div id="carrinho-lista"></div>
-  <input type="text" id="cupom-input" placeholder="Digite o cupom">
-  <button class="btn" onclick="aplicarCupom()">Aplicar Cupom</button>
-  <p id="desconto-msg"></p>
-  <h3 id="total"></h3>
-  <a class="btn" href="https://wa.me/5565999468323" target="_blank">Finalizar Compra</a>
-</section><section id="faq">
-  <h2>❓ Perguntas Frequentes (FAQ)</h2>
-  <div class="faq-item"><strong>🕐 Quando recebo minha conta?</strong><br>Imediatamente após o pagamento e envio do comprovante via WhatsApp.</div>
-  <div class="faq-item"><strong>👨‍👩‍👧 Posso dividir com alguém?</strong><br>Sim! Alguns serviços são familiares, outros são individuais. Verifique na descrição.</div>
-  <div class="faq-item"><strong>💳 Quais formas de pagamento?</strong><br>Apenas PIX. Envie o comprovante para ativação.</div>
-  <div class="faq-item"><strong>📱 Suporte funciona quando?</strong><br>Segunda a sábado, das 9h às 21h.</div>
-</section><footer>
-  <p>WhatsApp: (65) 99946-8323 • Email: boostmediapremium@gmail.com</p>
-  <p>&copy; 2025 Boost Media – Todos os direitos reservados.</p>
-</footer><a class="whatsapp-float" href="https://wa.me/5565999468323" target="_blank">
+</div><div id="site-container" style="display:none">
+  <header>
+    <h1>Boost Media</h1>
+    <p>Seu portal de contas premium com entrega rápida e preço justo!</p>
+  </header>  <nav>
+    <a href="#produtos">Produtos</a>
+    <a href="#carrinho-container">Carrinho</a>
+  </nav>  <section id="produtos">
+    <h2>Produtos Disponíveis</h2>
+    <div class="grid">
+      <div class="card">
+        <img src="https://img.icons8.com/color/96/netflix.png">
+        <h3>Netflix</h3>
+        <p>R$ 20,00</p>
+        <button class="btn" onclick="adicionarCarrinho('Netflix', 20)">Adicionar</button>
+      </div>
+      <div class="card">
+        <img src="https://img.icons8.com/color/96/spotify.png">
+        <h3>Spotify</h3>
+        <p>R$ 15,00</p>
+        <button class="btn" onclick="adicionarCarrinho('Spotify', 15)">Adicionar</button>
+      </div>
+    </div>
+  </section>  <section id="carrinho-container">
+    <h2>Carrinho</h2>
+    <div id="carrinho-lista"></div>
+    <input type="text" id="cupom-input" placeholder="Cupom">
+    <button onclick="aplicarCupom()">Aplicar Cupom</button>
+    <p>Total: R$ <span id="total">0.00</span></p>
+    <a class="btn" href="#" onclick="finalizarCompra()">Finalizar Compra</a>
+  </section>  <footer>
+    <p>WhatsApp: (65) 99946-8323 • Email: boostmediapremium@gmail.com</p>
+    <p>&copy; 2025 Boost Media – Todos os direitos reservados.</p>
+  </footer>
+</div><a class="whatsapp-float" href="https://wa.me/5565999468323" target="_blank">
   <img src="https://img.icons8.com/color/48/whatsapp--v1.png"/>
-</a>
-</div><script>
+</a><script>
   const firebaseConfig = {
     apiKey: "AIzaSyDBTpV4najUw7DtI5nCXfsb9wHLlgnnsj0",
     authDomain: "boostmidia-874f1.firebaseapp.com",
@@ -200,8 +204,7 @@
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(() => {
         document.getElementById("login-container").style.display = "none";
-        document.getElementById("site-container").classList.remove("hidden");
-        document.getElementById("site-container").classList.add("active");
+        document.getElementById("site-container").style.display = "block";
       })
       .catch(error => alert("Erro: " + error.message));
   }
@@ -209,63 +212,45 @@
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
       document.getElementById("login-container").style.display = "none";
-      document.getElementById("site-container").classList.remove("hidden");
-      document.getElementById("site-container").classList.add("active");
+      document.getElementById("site-container").style.display = "block";
     }
   });
 
-  const produtos = [
-    { nome: "YouTube Premium", preco: 15, img: "https://img.icons8.com/color/96/youtube-premium.png" },
-    { nome: "Netflix", preco: 20, img: "https://img.icons8.com/color/96/netflix.png" },
-    { nome: "Prime Video", preco: 10, img: "https://img.icons8.com/color/96/amazon-prime-video.png" },
-    { nome: "Disney+", preco: 12, img: "https://img.icons8.com/color/96/disney-plus.png" },
-    { nome: "HBO Max", preco: 15, img: "https://img.icons8.com/color/96/hbo.png" },
-    { nome: "Paramount+", preco: 10, img: "https://img.icons8.com/color/96/paramount-plus.png" },
-    { nome: "Spotify Premium", preco: 50, img: "https://img.icons8.com/color/96/spotify.png" },
-    { nome: "Youcine", preco: 15, img: "https://img.icons8.com/color/96/tv.png" },
-  ];
-
-  const carrinho = [];
+  let carrinho = [];
   let desconto = 0;
+  const cupom = { nome: 'BOOST25', valor: 0.2, validade: new Date(Date.now() + 24 * 60 * 60 * 1000) };
 
-  const grid = document.getElementById("produtos-grid");
-  produtos.forEach((p, index) => {
-    const div = document.createElement("div");
-    div.className = "card";
-    div.innerHTML = `<img src="${p.img}"><h3>${p.nome}</h3><p>R$${p.preco.toFixed(2)}</p><button class='btn' onclick='adicionarCarrinho(${index})'>Adicionar ao Carrinho</button>`;
-    grid.appendChild(div);
-  });
-
-  function adicionarCarrinho(index) {
-    carrinho.push(produtos[index]);
+  function adicionarCarrinho(produto, preco) {
+    carrinho.push({ produto, preco });
     atualizarCarrinho();
-    document.getElementById("carrinho-container").style.display = "block";
   }
 
   function atualizarCarrinho() {
     const lista = document.getElementById("carrinho-lista");
-    lista.innerHTML = "";
+    lista.innerHTML = '';
     let total = 0;
-    carrinho.forEach(p => {
-      lista.innerHTML += `<p>${p.nome} - R$${p.preco.toFixed(2)}</p>`;
-      total += p.preco;
+    carrinho.forEach(item => {
+      lista.innerHTML += `<p>${item.produto} - R$ ${item.preco.toFixed(2)}</p>`;
+      total += item.preco;
     });
-    total = total - (total * desconto);
-    document.getElementById("total").innerText = `Total: R$${total.toFixed(2)}`;
+    total = total * (1 - desconto);
+    document.getElementById("total").textContent = total.toFixed(2);
   }
 
   function aplicarCupom() {
-    const cupom = document.getElementById("cupom-input").value;
-    const hoje = new Date();
-    const expira = new Date("2025-07-04");
-    if (cupom === "BOOST25" && hoje <= expira) {
-      desconto = 0.2;
-      document.getElementById("desconto-msg").innerText = "Cupom aplicado: 20% de desconto!";
+    const digitado = document.getElementById("cupom-input").value.trim();
+    if (digitado === cupom.nome && new Date() < cupom.validade) {
+      desconto = cupom.valor;
+      alert("Cupom aplicado com sucesso! 20% de desconto.");
+      atualizarCarrinho();
     } else {
-      desconto = 0;
-      document.getElementById("desconto-msg").innerText = "Cupom inválido ou expirado.";
+      alert("Cupom inválido ou expirado.");
     }
-    atualizarCarrinho();
+  }
+
+  function finalizarCompra() {
+    const total = document.getElementById("total").textContent;
+    window.location.href = `https://wa.me/5565999468323?text=Olá! Gostaria de finalizar a compra no valor de R$ ${total}`;
   }
 </script></body>
 </html>
