@@ -1,85 +1,339 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Boost Media</title>
-  <link rel="icon" href="https://img.icons8.com/color/96/netflix.png" type="image/png">
+  <link rel="icon" href="https://img.icons8.com/color/96/netflix.png" />
   <style>
     :root {
-      --bg: #111827;
-      --text: #f1f1f1;
+      --bg-dark: #111827;
+      --text-dark: #f1f1f1;
       --primary: #4f46e5;
       --highlight: #10b981;
       --danger: #ef4444;
+
+      --bg-light: #fff;
+      --text-light: #111827;
     }
-    [data-theme='light'] {
-      --bg: #ffffff;
-      --text: #111827;
+    body[data-theme="dark"] {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+    }
+    body[data-theme="light"] {
+      background: var(--bg-light);
+      color: var(--text-light);
     }
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       transition: background 0.3s, color 0.3s;
     }
-    header { background: var(--primary); padding: 20px; text-align: center; color: white; }
-    nav { text-align: center; padding: 10px; background: #1f2937; }
-    nav a, nav button { margin: 0 10px; color: #a5f3fc; text-decoration: none; font-weight: bold; background: none; border: none; cursor: pointer; font-size: 1em; }
-    section { max-width: 900px; margin: auto; padding: 20px; }
-    h2 { text-align: center; color: #a5f3fc; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
-    .card { background: #1e293b; padding: 15px; border-radius: 10px; text-align: center; transition: transform 0.2s ease; animation: fadeIn 0.6s ease; }
-    .card:hover { transform: scale(1.03); }
-    .card img { width: 64px; height: 64px; }
-    .card h3 { margin: 10px 0 5px; color: #fcd34d; }
-    .btn { background: var(--highlight); color: white; border: none; padding: 10px; border-radius: 6px; margin-top: 10px; cursor: pointer; }
-    .faq-item { background: #1e293b; padding: 10px; border-radius: 10px; margin-bottom: 10px; }
-    .whatsapp-float { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
-    footer { text-align: center; padding: 20px; font-size: 0.9em; background: #0f172a; color: #94a3b8; }
-    .login-modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 200; }
-    .login-box { background: var(--bg); padding: 20px; border-radius: 10px; box-shadow: 0 0 10px #00000066; width: 300px; }
-    .login-box input { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc; }
-    .hidden { display: none; }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    header {
+      background: var(--primary);
+      padding: 20px;
+      text-align: center;
+      color: white;
+    }
+    nav {
+      background: #1f2937;
+      text-align: center;
+      padding: 10px;
+    }
+    nav a, nav button {
+      color: #a5f3fc;
+      margin: 0 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+    nav a:hover, nav button:hover {
+      background: var(--highlight);
+      color: #fff;
+    }
+    main {
+      max-width: 960px;
+      margin: 30px auto;
+      padding: 0 15px;
+    }
+    h2 {
+      color: var(--highlight);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgb(0 0 0 / 0.3);
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .card img {
+      width: 70px;
+      height: 70px;
+      margin-bottom: 15px;
+    }
+    .card h3 {
+      margin: 10px 0 8px;
+      color: #fcd34d;
+      font-size: 1.2rem;
+    }
+    .card p {
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+    .btn {
+      background: var(--highlight);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: background 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn:hover {
+      background: #059669;
+    }
+    footer {
+      background: #0f172a;
+      text-align: center;
+      padding: 20px;
+      color: #94a3b8;
+      margin-top: 40px;
+      font-size: 0.9rem;
+    }
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background: #25d366;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1000;
+    }
+    .whatsapp-float img {
+      width: 32px;
+      height: 32px;
+    }
+    /* Login Modal */
+    #loginModal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+    #loginBox {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+      padding: 30px 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.8);
+      width: 320px;
+      max-width: 90vw;
+      transition: background 0.3s, color 0.3s;
+    }
+    body[data-theme="light"] #loginBox {
+      background: var(--bg-light);
+      color: var(--text-light);
+      box-shadow: 0 0 25px rgba(0,0,0,0.3);
+    }
+    #loginBox h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-weight: 700;
+      font-size: 1.8rem;
+      text-align: center;
+    }
+    #loginBox input {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+    #loginBox input:focus {
+      border-color: var(--highlight);
+      outline: none;
+    }
+    #loginBox button {
+      width: 100%;
+      padding: 12px 0;
+      border: none;
+      border-radius: 8px;
+      background: var(--highlight);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #loginBox button:hover {
+      background: #059669;
+    }
+    #loginBox .close-btn {
+      background: var(--danger);
+      margin-top: 10px;
+    }
+    #couponSection {
+      margin: 20px 0;
+      text-align: center;
+    }
+    #couponSection input {
+      padding: 8px 12px;
+      font-size: 1rem;
+      width: 200px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-right: 8px;
+    }
+    #couponSection button {
+      padding: 9px 16px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: none;
+      background: var(--highlight);
+      color: white;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    #couponSection button:hover {
+      background: #059669;
+    }
+    #discountMsg {
+      margin-top: 10px;
+      font-weight: 700;
+      color: #10b981;
     }
   </style>
   <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 </head>
 <body data-theme="dark">
+
 <header>
   <h1>Boost Media</h1>
   <p>Seu portal de contas premium com entrega rápida e preço justo!</p>
-</header><nav>
+</header>
+
+<nav>
   <a href="#produtos">Produtos</a>
   <a href="#combos">Combos</a>
   <a href="#faq">FAQ</a>
   <a href="#politica">Política de Uso</a>
   <button onclick="toggleTheme()">🌙/☀️</button>
-  <button onclick="abrirLogin()">🔒 Login</button>
-</nav><div class="login-modal hidden" id="modalLogin">
-  <div class="login-box">
+  <button onclick="showLogin()">🔒 Login</button>
+  <button id="logoutBtn" style="display:none;" onclick="logout()">Logout</button>
+</nav>
+
+<main id="mainContent" style="display:none;">
+
+  <section id="produtos">
+    <h2>📺 Produtos Individuais</h2>
+    <div class="grid" id="productsGrid">
+      <!-- Produtos carregados via JS -->
+    </div>
+  </section>
+
+  <section id="combos" style="margin-top: 40px;">
+    <h2>🔥 Combos Promocionais</h2>
+    <div class="grid" id="combosGrid">
+      <!-- Combos carregados via JS -->
+    </div>
+  </section>
+
+  <section id="couponSection">
+    <input type="text" id="couponInput" placeholder="Digite o cupom BOOST25" maxlength="10" />
+    <button onclick="applyCoupon()">Aplicar Cupom</button>
+    <div id="discountMsg"></div>
+  </section>
+
+  <section id="faq" style="margin-top: 40px;">
+    <h2>❓ Perguntas Frequentes (FAQ)</h2>
+    <div class="faq-item">
+      <strong>🕐 Quando recebo minha conta?</strong><br />
+      Imediatamente após o pagamento e envio do comprovante via WhatsApp.
+    </div>
+    <div class="faq-item">
+      <strong>👨‍👩‍👧 Posso dividir com alguém?</strong><br />
+      Sim! Alguns serviços são familiares, outros são individuais. Verifique na descrição.
+    </div>
+    <div class="faq-item">
+      <strong>💳 Quais formas de pagamento?</strong><br />
+      Apenas PIX. Envie o comprovante para ativação.
+    </div>
+    <div class="faq-item">
+      <strong>📱 Suporte funciona quando?</strong><br />
+      Segunda a sábado, das 9h às 21h.
+    </div>
+  </section>
+
+  <section id="politica" style="margin-top: 40px;">
+    <h2>📜 Política de Uso</h2>
+    <p>
+      Ao utilizar a Boost Media, você concorda em utilizar os serviços exclusivamente para fins pessoais e legais.
+      O compartilhamento de contas fora dos termos definidos pode resultar na suspensão do serviço. Prezamos pela
+      segurança, entrega imediata e suporte ao cliente. Em caso de dúvidas, entre em contato pelo WhatsApp.
+    </p>
+  </section>
+
+</main>
+
+<!-- Modal Login -->
+<div id="loginModal">
+  <div id="loginBox">
     <h2>Login</h2>
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="senha" placeholder="Senha">
-    <button class="btn" onclick="fazerLogin()">Entrar</button>
-    <button class="btn" onclick="fazerCadastro()">Cadastrar</button>
-    <button class="btn" onclick="fecharLogin()" style="background: var(--danger)">Fechar</button>
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Senha" />
+    <button onclick="login()">Entrar</button>
+    <button onclick="register()">Cadastrar</button>
+    <button class="close-btn" onclick="hideLogin()">Fechar</button>
   </div>
-</div><section id="politica">
-  <h2>📜 Política de Uso</h2>
-  <p>Ao utilizar a Boost Media, você concorda em utilizar os serviços exclusivamente para fins pessoais e legais. O compartilhamento de contas fora dos termos definidos pode resultar na suspensão do serviço. Prezamos pela segurança, entrega imediata e suporte ao cliente. Em caso de dúvidas, entre em contato pelo WhatsApp.</p>
-</section><!-- PRODUTOS, COMBOS, FAQ, ETC --><!-- ... o restante da sua loja permanece aqui sem alterações ... --><footer>
+</div>
+
+<footer>
   <p>WhatsApp: (65) 99946-8323 • Email: boostmediapremium@gmail.com</p>
-  <p>&copy; 2025 Boost Media – Todos os direitos reservados.</p>
+  <p>© 2025 Boost Media – Todos os direitos reservados.</p>
 </footer>
-<a class="whatsapp-float" href="https://wa.me/5565999468323" target="_blank">
-  <img src="https://img.icons8.com/color/48/whatsapp--v1.png"/>
-</a><script>
+
+<a class="whatsapp-float" href="https://wa.me/5565999468323" target="_blank" title="WhatsApp">
+  <img src="https://img.icons8.com/color/48/whatsapp--v1.png" alt="WhatsApp" />
+</a>
+
+<script>
+  // Firebase config
   const firebaseConfig = {
     apiKey: "AIzaSyDwBokVIhJ2QJ1c8CnPuI60YnfeTdlCoEo",
     authDomain: "boostmidia-admin.firebaseapp.com",
@@ -87,43 +341,178 @@
     storageBucket: "boostmidia-admin.appspot.com",
     messagingSenderId: "276784965090",
     appId: "1:276784965090:web:876665634014edc2e585bb",
-    measurementId: "G-739257ZDJV"
+    measurementId: "G-739257ZDJV",
   };
+
+  // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
 
+  // Products data
+  const products = [
+    {
+      id: "youtube-premium",
+      name: "YouTube Premium",
+      price: 15.0,
+      img: "https://img.icons8.com/color/96/youtube-premium.png",
+      description: "R$15,00/mês",
+    },
+    {
+      id: "netflix",
+      name: "Netflix",
+      price: 20.0,
+      img: "https://img.icons8.com/color/96/netflix.png",
+      description: "R$20,00/mês",
+    },
+    {
+      id: "prime-video",
+      name: "Prime Video",
+      price: 10.0,
+      img: "https://img.icons8.com/color/96/amazon-prime-video.png",
+      description: "R$10,00/mês",
+    },
+    {
+      id: "disney-plus",
+      name: "Disney+",
+      price: 12.0,
+      img: "https://img.icons8.com/color/96/disney-plus.png",
+      description: "R$12,00/mês",
+    },
+    {
+      id: "hbo-max",
+      name: "HBO Max",
+      price: 15.0,
+      img: "https://img.icons8.com/color/96/hbo.png",
+      description: "R$15,00/mês",
+    },
+    {
+      id: "paramount-plus",
+      name: "Paramount+",
+      price: 10.0,
+      img: "https://img.icons8.com/color/96/paramount-plus.png",
+      description: "R$10,00/mês",
+    },
+    {
+      id: "spotify-premium",
+      name: "Spotify Premium",
+      price: 50.0,
+      img: "https://img.icons8.com/color/96/spotify.png",
+      description: "R$50,00/ano",
+    },
+    {
+      id: "youcine",
+      name: "Youcine",
+      price: 15.0,
+      img: "https://img.icons8.com/color/96/tv.png",
+      description: "R$15,00 único",
+    },
+  ];
+
+  // Combos data
+  const combos = [
+    {
+      id: "combo1",
+      name: "Netflix + Spotify",
+      price: 29.9,
+      description: "R$29,90/mês",
+    },
+    {
+      id: "combo2",
+      name: "HBO + Prime Video",
+      price: 22.9,
+      description: "R$22,90/mês",
+    },
+    {
+      id: "combo3",
+      name: "Disney+ + YouTube Premium",
+      price: 25.0,
+      description: "R$25,00/mês",
+    },
+  ];
+
+  // Coupon data
+  const coupons = {
+    BOOST25: {
+      discountPercent: 20,
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 1 day from now
+      usedBy: [], // array to track users by email (in real app save in Firestore)
+    },
+  };
+
+  let currentUser = null;
+  let appliedCoupon = null;
+
+  // Show login modal
+  function showLogin() {
+    document.getElementById("loginModal").style.display = "flex";
+  }
+  // Hide login modal
+  function hideLogin() {
+    document.getElementById("loginModal").style.display = "none";
+  }
+
+  // Toggle light/dark theme
   function toggleTheme() {
     const body = document.body;
-    body.setAttribute("data-theme", body.getAttribute("data-theme") === "light" ? "dark" : "light");
+    if (body.getAttribute("data-theme") === "light") {
+      body.setAttribute("data-theme", "dark");
+    } else {
+      body.setAttribute("data-theme", "light");
+    }
   }
-  function abrirLogin() {
-    document.getElementById("modalLogin").classList.remove("hidden");
+
+  // Render products on page
+  function renderProducts() {
+    const container = document.getElementById("productsGrid");
+    container.innerHTML = "";
+    products.forEach((p) => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <img src="${p.img}" alt="${p.name}" />
+        <h3>${p.name}</h3>
+        <p>${p.description}</p>
+        <button class="btn" onclick="finalizePurchase('${p.name}', ${p.price})">Comprar</button>
+      `;
+      container.appendChild(card);
+    });
   }
-  function fecharLogin() {
-    document.getElementById("modalLogin").classList.add("hidden");
+
+  // Render combos on page
+  function renderCombos() {
+    const container = document.getElementById("combosGrid");
+    container.innerHTML = "";
+    combos.forEach((c) => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <h3>${c.name}</h3>
+        <p>${c.description}</p>
+        <button class="btn" onclick="finalizePurchase('${c.name}', ${c.price})">Comprar Combo</button>
+      `;
+      container.appendChild(card);
+    });
   }
-  function fazerLogin() {
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
-    auth.signInWithEmailAndPassword(email, senha)
-      .then(() => {
-        fecharLogin();
-        alert("Login realizado com sucesso!");
-      })
-      .catch(error => {
-        alert("Erro ao fazer login: " + error.message);
-      });
-  }
-  function fazerCadastro() {
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
-    auth.createUserWithEmailAndPassword(email, senha)
-      .then(() => {
-        alert("Conta criada com sucesso!");
-      })
-      .catch(error => {
-        alert("Erro ao cadastrar: " + error.message);
-      });
-  }
-</script></body>
-</html>
+
+  // Apply coupon
+  function applyCoupon() {
+    const input = document.getElementById("couponInput");
+    const code = input.value.trim().toUpperCase();
+    const msg = document.getElementById("discountMsg");
+
+    if (!code) {
+      msg.textContent = "Por favor, digite um cupom.";
+      msg.style.color = "red";
+      return;
+    }
+
+    const coupon = coupons[code];
+    if (!coupon) {
+      msg.textContent = "Cupom inválido.";
+      msg.style.color = "red";
+      return;
+    }
+
+    const now = new Date();
+    if (now > coupon.expiresAt) {
+      msg.textContent = "
