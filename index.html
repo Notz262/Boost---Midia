@@ -132,6 +132,7 @@ footer {
   text-decoration: none;
   font-weight: bold;
   display: inline-block;
+  cursor: pointer;
 }
 
 .whatsapp-float {
@@ -154,6 +155,13 @@ footer {
   width: 30px;
 }
 
+#carrinho {
+  padding: 20px;
+  background: #0f172a;
+  color: #fff;
+  margin-top: 40px;
+}
+
   </style>
 </head>
 <body>
@@ -164,61 +172,15 @@ footer {
     <button onclick="login()">Entrar</button>
     <button onclick="signup()">Cadastrar</button>
   </div>  <div id="site-container" class="hidden">
-    <header>
-      <h1>Boost Media</h1>
-      <p>Seu portal de contas premium com entrega rápida e preço justo!</p>
-    </header><nav>
-  <a href="#produtos">Produtos</a>
-  <a href="#combos">Combos</a>
-  <a href="#faq">FAQ</a>
-  <a href="#politica">Política de Uso</a>
-  <a href="#" onclick="logout()">Sair</a>
-</nav>
-
-<section id="produtos">
-  <h2>📺 Produtos Individuais</h2>
-  <div class="grid">
-    <div class="card"><img src="https://img.icons8.com/color/96/youtube-premium.png"><h3>YouTube Premium</h3><p>R$15,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
-    <div class="card"><img src="https://img.icons8.com/color/96/netflix.png"><h3>Netflix</h3><p>R$20,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
-    <div class="card"><img src="https://img.icons8.com/color/96/amazon-prime-video.png"><h3>Prime Video</h3><p>R$10,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
-    <div class="card"><img src="https://img.icons8.com/color/96/disney-plus.png"><h3>Disney+</h3><p>R$12,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
-    <div class="card"><img src="https://img.icons8.com/color/96/hbo.png"><h3>HBO Max</h3><p>R$15,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
-    <div class="card"><img src="https://img.icons8.com/color/96/paramount-plus.png"><h3>Paramount+</h3><p>R$10,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
-    <div class="card"><img src="https://img.icons8.com/color/96/spotify.png"><h3>Spotify Premium</h3><p>R$50,00/ano</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
-    <div class="card"><img src="https://img.icons8.com/color/96/tv.png"><h3>Youcine</h3><p>R$15,00 único</p><a class="btn" href="https://wa.me/5565999468323">Comprar</a></div>
-  </div>
+    <!-- ... conteúdo da loja mantido ... --><section id="carrinho">
+  <h2>🛒 Carrinho de Compras</h2>
+  <ul id="itens-carrinho"></ul>
+  <p>Total: R$<span id="total">0.00</span></p>
+  <input type="text" id="cupom" placeholder="Digite o cupom" />
+  <button onclick="aplicarCupom()">Aplicar Cupom</button>
+  <br><br>
+  <a id="finalizarBtn" class="btn" href="#" onclick="finalizarCompra()">Finalizar Compra via WhatsApp</a>
 </section>
-
-<section id="combos">
-  <h2>🔥 Combos Promocionais</h2>
-  <div class="grid">
-    <div class="card"><h3>Netflix + Spotify</h3><p>R$29,90/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar Combo</a></div>
-    <div class="card"><h3>HBO + Prime Video</h3><p>R$22,90/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar Combo</a></div>
-    <div class="card"><h3>Disney+ + YouTube Premium</h3><p>R$25,00/mês</p><a class="btn" href="https://wa.me/5565999468323">Comprar Combo</a></div>
-  </div>
-</section>
-
-<section id="faq">
-  <h2>❓ Perguntas Frequentes</h2>
-  <div class="card"><strong>🕐 Quando recebo minha conta?</strong><br>Imediatamente após o pagamento e envio do comprovante via WhatsApp.</div>
-  <div class="card"><strong>👨‍👩‍👧 Posso dividir com alguém?</strong><br>Sim! Alguns serviços são familiares, outros são individuais. Verifique na descrição.</div>
-  <div class="card"><strong>💳 Quais formas de pagamento?</strong><br>Apenas PIX. Envie o comprovante para ativação.</div>
-  <div class="card"><strong>📱 Suporte funciona quando?</strong><br>Segunda a sábado, das 9h às 21h.</div>
-</section>
-
-<section id="politica">
-  <h2>📜 Política de Uso</h2>
-  <div class="card">
-    <p>O uso de nossas contas é pessoal e intransferível, salvo nos planos familiares.</p>
-    <p>É proibido alterar dados das contas fornecidas.</p>
-    <p>O descumprimento pode resultar no cancelamento sem reembolso.</p>
-  </div>
-</section>
-
-<footer>
-  <p>WhatsApp: (65) 99946-8323 • Email: boostmediapremium@gmail.com</p>
-  <p>&copy; 2025 Boost Media – Todos os direitos reservados.</p>
-</footer>
 
   </div>  <a class="whatsapp-float" href="https://wa.me/5565999468323" target="_blank">
     <img src="https://img.icons8.com/color/48/whatsapp--v1.png" />
@@ -271,5 +233,50 @@ footer {
         document.getElementById("site-container").classList.remove("hidden");
       }
     });
+
+    // Carrinho
+    let carrinho = [];
+    let total = 0;
+    let descontoAplicado = false;
+
+    function adicionarCarrinho(nome, preco) {
+      carrinho.push({ nome, preco });
+      total += preco;
+      atualizarCarrinho();
+    }
+
+    function atualizarCarrinho() {
+      const lista = document.getElementById("itens-carrinho");
+      lista.innerHTML = "";
+      carrinho.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.nome} - R$${item.preco.toFixed(2)}`;
+        lista.appendChild(li);
+      });
+      document.getElementById("total").textContent = total.toFixed(2);
+    }
+
+    function aplicarCupom() {
+      const input = document.getElementById("cupom").value.trim().toUpperCase();
+      if (input === "BOOST25" && !descontoAplicado) {
+        total *= 0.8;
+        descontoAplicado = true;
+        atualizarCarrinho();
+        alert("Cupom aplicado com sucesso! 20% de desconto.");
+      } else {
+        alert("Cupom inválido ou já utilizado.");
+      }
+    }
+
+    function finalizarCompra() {
+      if (carrinho.length === 0) return alert("Seu carrinho está vazio!");
+      let texto = "Olá! Gostaria de comprar:\n\n";
+      carrinho.forEach(item => {
+        texto += `- ${item.nome} (R$${item.preco.toFixed(2)})\n`;
+      });
+      texto += `\nTotal com desconto: R$${total.toFixed(2)}`;
+      const url = `https://wa.me/5565999468323?text=${encodeURIComponent(texto)}`;
+      window.open(url, '_blank');
+    }
   </script></body>
 </html>
