@@ -2,474 +2,499 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8" />
-<title>Boost Media</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Boost Media - Loja Premium</title>
 <style>
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #111827;
-    color: #f1f1f1;
+  /* Reset básico */
+  * {
+    box-sizing: border-box;
     margin: 0; padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
-  .top-bar {
-    background: #4f46e5;
-    padding: 12px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  html, body {
+    height: 100%;
+    background-color: #111827;
+    color: #f1f1f1;
+    transition: background-color 0.4s ease, color 0.4s ease;
   }
-  .top-bar span {
-    font-weight: bold;
+  body.light {
+    background-color: #f9fafb;
+    color: #111827;
   }
-  .top-bar button {
-    background: #10b981;
-    border: none;
-    color: white;
-    padding: 8px 14px;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  #loginSection, #shopSection {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 0 15px;
-  }
+
+  /* Login flutuante */
   #loginSection {
-    max-width: 320px;
+    max-width: 380px;
+    margin: 10vh auto 50vh;
     background: #1e293b;
-    padding: 30px 20px;
-    border-radius: 12px;
+    border-radius: 20px;
+    padding: 32px 28px;
+    box-shadow:
+      0 0 20px rgba(79, 70, 229, 0.7),
+      0 12px 35px rgba(79, 70, 229, 0.4);
+    animation: floatUp 1s ease forwards;
+    position: relative;
+    z-index: 20;
+  }
+  body.light #loginSection {
+    background: #fff;
+    color: #111;
+    box-shadow:
+      0 0 20px rgba(59, 130, 246, 0.5),
+      0 12px 35px rgba(59, 130, 246, 0.25);
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(40px); opacity: 0;}
+    100% { transform: translateY(0); opacity: 1;}
   }
   #loginSection h2 {
-    text-align: center;
     color: #a5f3fc;
+    margin-bottom: 26px;
+    font-weight: 900;
+    text-align: center;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 12px #4f46e5;
+  }
+  body.light #loginSection h2 {
+    color: #2563eb;
+    text-shadow: none;
   }
   #loginSection input {
     width: 100%;
-    margin: 10px 0;
-    padding: 12px;
-    border-radius: 8px;
+    padding: 15px 20px;
+    border-radius: 14px;
     border: none;
-    font-size: 1em;
+    margin-bottom: 18px;
+    font-size: 1.05em;
+    background: #111827;
+    color: #f1f1f1;
+    box-shadow: inset 0 0 10px #4f46e5;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  body.light #loginSection input {
+    background: #f0f4f8;
+    color: #111;
+    box-shadow: inset 0 0 10px #3b82f6;
+  }
+  #loginSection input:focus {
+    outline: none;
+    box-shadow: 0 0 14px #4f46e5;
+  }
+  body.light #loginSection input:focus {
+    box-shadow: 0 0 14px #3b82f6;
   }
   #loginSection button {
     width: 100%;
-    background: #10b981;
+    background: #4f46e5;
     border: none;
-    padding: 12px;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 10px;
+    padding: 16px 0;
+    font-weight: 900;
     color: white;
+    border-radius: 18px;
+    cursor: pointer;
+    font-size: 1.15em;
+    box-shadow: 0 0 18px #4f46e5;
+    transition: background-color 0.3s ease;
+  }
+  #loginSection button:hover {
+    background: #4338ca;
+  }
+  body.light #loginSection button {
+    background: #3b82f6;
+    box-shadow: 0 0 18px #3b82f6;
+  }
+  body.light #loginSection button:hover {
+    background: #2563eb;
   }
   #loginSection p.toggle {
+    margin-top: 20px;
     text-align: center;
     color: #38bdf8;
-    margin-top: 14px;
+    font-weight: 700;
     cursor: pointer;
+    user-select: none;
+  }
+  body.light #loginSection p.toggle {
+    color: #2563eb;
   }
   #loginMsg {
+    margin-top: 12px;
+    min-height: 24px;
+    font-weight: 700;
+    color: #ef4444;
     text-align: center;
-    color: #f87171;
-    margin-top: 10px;
-    min-height: 20px;
+    text-shadow: 0 0 6px #ef4444;
   }
-  h1, h2 {
+  body.light #loginMsg {
+    color: #b91c1c;
+    text-shadow: none;
+  }
+
+  /* Barra topo (aparece só quando logado) */
+  #topBar {
+    display: none;
+    background: #4f46e5;
+    color: white;
+    padding: 12px 22px;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 150;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.35);
+  }
+  #topBar span {
+    user-select: none;
+  }
+  #topBar button {
+    background: #10b981;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+  }
+  #topBar button:hover {
+    background: #059669;
+  }
+  body.light #topBar {
+    background: #3b82f6;
+  }
+
+  /* Botão menu 3 pontinhos */
+  #menuBtn {
+    background: transparent;
+    border: none;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+    padding: 0 10px;
+  }
+  body.light #menuBtn {
+    color: #111827;
+  }
+  #menuDropdown {
+    display: none;
+    position: absolute;
+    right: 8px;
+    top: 38px;
+    background: #1e293b;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    min-width: 210px;
+    z-index: 300;
+    overflow: hidden;
+    animation: dropdownFade 0.35s ease forwards;
+  }
+  body.light #menuDropdown {
+    background: #e0e7ff;
+    color: #111;
+    box-shadow: 0 5px 20px rgba(59,130,246,0.5);
+  }
+  @keyframes dropdownFade {
+    from {opacity: 0; transform: translateY(-12px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+  #menuDropdown a, #menuDropdown button {
+    display: block;
+    padding: 14px 20px;
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-weight: 700;
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.3s;
+    font-size: 1em;
+  }
+  #menuDropdown a:hover, #menuDropdown button:hover {
+    background: #4f46e5;
+    color: white;
+  }
+  body.light #menuDropdown a:hover, body.light #menuDropdown button:hover {
+    background: #2563eb;
+    color: white;
+  }
+  #menuDropdown a:last-child, #menuDropdown button:last-child {
+    border-bottom: none;
+  }
+  #menuDropdown input {
+    margin: 8px 20px 12px 20px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 600;
+    font-size: 1em;
+    background: #111827;
+    color: #f1f1f1;
+    box-shadow: inset 0 0 7px #4f46e5;
+    transition: background-color 0.3s, color 0.3s;
+    width: calc(100% - 40px);
+  }
+  body.light #menuDropdown input {
+    background: #f0f4f8;
+    color: #111;
+    box-shadow: inset 0 0 7px #3b82f6;
+  }
+  #menuDropdown input:focus {
+    outline: none;
+    box-shadow: 0 0 11px #4f46e5;
+  }
+  body.light #menuDropdown input:focus {
+    box-shadow: 0 0 11px #3b82f6;
+  }
+
+  /* Área da loja */
+  #shopSection {
+    max-width: 1020px;
+    margin: 45px auto 80px;
+    padding: 0 20px;
+    opacity: 0;
+    animation: fadeInUp 1s ease forwards;
+  }
+  @keyframes fadeInUp {
+    to {opacity: 1; transform: translateY(0);}
+    from {opacity: 0; transform: translateY(40px);}
+  }
+  #shopSection h1 {
+    text-align: center;
+    font-weight: 900;
     color: #a5f3fc;
-    text-align: center;
+    text-shadow: 0 0 14px #4f46e5;
+    margin-bottom: 34px;
+    font-size: 2.8em;
   }
+  body.light #shopSection h1 {
+    color: #2563eb;
+    text-shadow: none;
+  }
+
+  /* Grid produtos */
   .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
-    gap: 20px;
-    margin-top: 30px;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 28px;
   }
   .product-card {
     background: #1e293b;
-    border-radius: 12px;
-    padding: 20px;
+    border-radius: 20px;
+    padding: 22px 20px;
     text-align: center;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    transition: transform 0.35s cubic-bezier(.4,0,.2,1), box-shadow 0.35s ease;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
   }
+  .product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 14px 26px rgba(79, 70, 229, 0.9);
+  }
+  body.light .product-card {
+    background: #f9fafb;
+    color: #111;
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.3);
+  }
+  body.light .product-card:hover {
+    box-shadow: 0 14px 30px rgba(59, 130, 246, 0.8);
+  }
+
+  /* Imagem produto */
   .product-card img {
-    max-height: 70px;
-    margin-bottom: 12px;
+    max-height: 90px;
+    margin-bottom: 18px;
+    filter: drop-shadow(0 0 4px rgba(79, 70, 229, 0.6));
+    transition: filter 0.3s ease;
   }
+  body.light .product-card img {
+    filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.7));
+  }
+  .product-card:hover img {
+    filter: drop-shadow(0 0 10px #fbbf24);
+  }
+
+  /* Título e preço */
   .product-card h3 {
-    margin: 10px 0 6px;
+    font-weight: 900;
+    margin-bottom: 14px;
     color: #fcd34d;
+    font-size: 1.3em;
+    text-shadow: 0 0 8px #fbbf24;
+  }
+  body.light .product-card h3 {
+    color: #ca8a04;
+    text-shadow: none;
   }
   .product-card p {
-    margin-bottom: 12px;
-    font-weight: bold;
-    font-size: 1.1em;
+    font-weight: 700;
+    font-size: 1.05em;
+    margin-bottom: 16px;
   }
+
+  /* Botão comprar */
   .product-card button {
     background: #10b981;
     border: none;
-    padding: 10px 15px;
-    border-radius: 8px;
-    font-weight: bold;
+    padding: 14px 28px;
+    border-radius: 20px;
     color: white;
+    font-weight: 900;
     cursor: pointer;
+    box-shadow: 0 0 15px #10b981;
+    transition: background-color 0.3s ease;
+    font-size: 1.05em;
   }
+  .product-card button:hover {
+    background: #059669;
+  }
+
+  /* Carrinho */
   #cart {
     background: #1e293b;
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 20px;
-    border-radius: 12px;
+    margin-top: 50px;
+    border-radius: 22px;
+    padding: 32px 36px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.45);
+    max-width: 1020px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 700;
+  }
+  body.light #cart {
+    background: #fff;
+    color: #111;
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
   }
   #cart h2 {
     color: #a5f3fc;
+    margin-bottom: 28px;
+    font-weight: 900;
+    font-size: 1.9em;
+    text-align: center;
   }
+  body.light #cart h2 {
+    color: #2563eb;
+  }
+
   #cart-items {
-    margin-top: 15px;
+    max-height: 320px;
+    overflow-y: auto;
+    margin-bottom: 28px;
+    border-radius: 12px;
+    border: 2px solid #4f46e5;
+  }
+  body.light #cart-items {
+    border-color: #3b82f6;
   }
   .cart-item {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     background: #111827;
-    padding: 12px 15px;
-    border-radius: 8px;
-    margin-bottom: 10px;
+    padding: 14px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-weight: 700;
+    font-size: 1.05em;
+    transition: background-color 0.3s;
+  }
+  body.light .cart-item {
+    background: #f3f4f6;
+    color: #111;
+    border-bottom: 1px solid #ddd;
+  }
+  .cart-item:last-child {
+    border-bottom: none;
   }
   .cart-item span {
-    font-weight: bold;
+    flex: 1;
+  }
+  .cart-item .price {
+    flex: 0 0 80px;
+    text-align: right;
+    color: #facc15;
   }
   .cart-item button {
     background: #ef4444;
     border: none;
     color: white;
-    padding: 5px 10px;
-    border-radius: 6px;
+    border-radius: 12px;
+    padding: 9px 14px;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 900;
+    font-size: 1.05em;
+    transition: background-color 0.3s;
+    margin-left: 20px;
   }
+  .cart-item button:hover {
+    background: #b91c1c;
+  }
+
+  /* Cupom - seção */
   #couponSection {
-    margin-top: 20px;
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 16px;
+    margin-top: 8px;
   }
   #couponInput {
-    padding: 10px;
-    border-radius: 8px;
+    padding: 14px 20px;
+    border-radius: 18px;
     border: none;
-    width: 200px;
-    font-size: 1em;
+    font-size: 1.1em;
+    width: 240px;
+    box-shadow: inset 0 0 12px #4f46e5;
+    background: #111827;
+    color: #f1f1f1;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  body.light #couponInput {
+    background: #f0f4f8;
+    color: #111;
+    box-shadow: inset 0 0 12px #3b82f6;
+  }
+  #couponInput:focus {
+    outline: none;
+    box-shadow: 0 0 18px #4f46e5;
+  }
+  body.light #couponInput:focus {
+    box-shadow: 0 0 18px #3b82f6;
   }
   #applyCouponBtn {
     background: #3b82f6;
     border: none;
+    padding: 16px 26px;
+    border-radius: 18px;
+    font-weight: 900;
     color: white;
-    padding: 10px 15px;
-    border-radius: 8px;
     cursor: pointer;
-    font-weight: bold;
+    box-shadow: 0 0 20px #3b82f6;
+    transition: background-color 0.3s;
+    font-size: 1.1em;
+  }
+  #applyCouponBtn:hover {
+    background: #2563eb;
   }
   #couponMsg {
+    margin-top: 12px;
     text-align: center;
-    margin-top: 10px;
-    min-height: 20px;
+    font-weight: 900;
+    font-size: 1.05em;
+    min-height: 28px;
   }
+
+  /* Total e finalizar */
   #totalPrice {
-    font-weight: bold;
-    font-size: 1.3em;
-    margin-top: 15px;
+    font-weight: 900;
+    font-size: 1.75em;
     text-align: right;
-  }
-  #checkoutBtn {
-    background: #10b981;
-    border: none;
-    width: 100%;
-    padding: 15px;
-    font-weight: bold;
-    color: white;
-    border-radius: 8px;
-    margin-top: 25px;
-    cursor: pointer;
-  }
-</style>
-</head>
-<body>
-
-  <div class="top-bar" id="topBar" style="display:none;">
-    <span id="userEmail"></span>
-    <button onclick="logout()">Sair</button>
-  </div>
-
-  <section id="loginSection">
-    <h2 id="formTitle">Login</h2>
-    <input type="email" id="email" placeholder="Seu email" />
-    <input type="password" id="password" placeholder="Senha" />
-    <button id="authBtn">Entrar</button>
-    <p class="toggle" id="toggleForm">Não tem conta? Cadastre-se</p>
-    <p id="loginMsg"></p>
-  </section>
-
-  <section id="shopSection" style="display:none;">
-    <h1>Boost Media - Contas Premium</h1>
-
-    <div class="products-grid" id="productsGrid">
-      <!-- Produtos vão ser inseridos por JS -->
-    </div>
-
-    <div id="cart">
-      <h2>Carrinho</h2>
-      <div id="cart-items"></div>
-      <div id="couponSection">
-        <input type="text" id="couponInput" placeholder="Digite o cupom" />
-        <button id="applyCouponBtn">Aplicar Cupom</button>
-      </div>
-      <p id="couponMsg"></p>
-      <p id="totalPrice">Total: R$ 0,00</p>
-      <button id="checkoutBtn">Finalizar Compra</button>
-    </div>
-  </section>
-
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDBTpV4najUw7DtI5nCXfsb9wHLlgnnsj0",
-      authDomain: "boostmidia-874f1.firebaseapp.com",
-      projectId: "boostmidia-874f1",
-      storageBucket: "boostmidia-874f1.appspot.com",
-      messagingSenderId: "182351458835",
-      appId: "1:182351458835:web:a89b0c677574c39537c5e6"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    // Produtos
-    const products = [
-      { id: 1, name: "YouTube Premium", price: 15.00, icon: "https://img.icons8.com/color/96/youtube-premium.png" },
-      { id: 2, name: "Netflix", price: 20.00, icon: "https://img.icons8.com/color/96/netflix.png" },
-      { id: 3, name: "Prime Video", price: 10.00, icon: "https://img.icons8.com/color/96/amazon-prime-video.png" },
-      { id: 4, name: "Disney+", price: 12.00, icon: "https://img.icons8.com/color/96/disney-plus.png" },
-      { id: 5, name: "HBO Max", price: 15.00, icon: "https://img.icons8.com/color/96/hbo.png" },
-      { id: 6, name: "Paramount+", price: 10.00, icon: "https://img.icons8.com/color/96/paramount-plus.png" },
-      { id: 7, name: "Spotify Premium", price: 50.00, icon: "https://img.icons8.com/color/96/spotify.png" },
-      { id: 8, name: "Youcine", price: 15.00, icon: "https://img.icons8.com/color/96/tv.png" }
-    ];
-
-    // Cupom válido
-    const validCoupon = {
-      code: "Bost25",
-      discountPercent: 20,
-      expireAt: new Date(new Date().getTime() + 24*60*60*1000) // 24 horas a partir do carregamento da página
-    };
-
-    let cart = [];
-    let discountApplied = 0;
-
-    // DOM Elements
-    const loginSection = document.getElementById("loginSection");
-    const shopSection = document.getElementById("shopSection");
-    const topBar = document.getElementById("topBar");
-    const userEmail = document.getElementById("userEmail");
-    const formTitle = document.getElementById("formTitle");
-    const authBtn = document.getElementById("authBtn");
-    const toggleForm = document.getElementById("toggleForm");
-    const loginMsg = document.getElementById("loginMsg");
-    const productsGrid = document.getElementById("productsGrid");
-    const cartItemsDiv = document.getElementById("cart-items");
-    const couponInput = document.getElementById("couponInput");
-    const applyCouponBtn = document.getElementById("applyCouponBtn");
-    const couponMsg = document.getElementById("couponMsg");
-    const totalPriceP = document.getElementById("totalPrice");
-    const checkoutBtn = document.getElementById("checkoutBtn");
-
-    let isLogin = true;
-
-    // Alternar entre login e cadastro
-    toggleForm.onclick = () => {
-      isLogin = !isLogin;
-      formTitle.innerText = isLogin ? "Login" : "Cadastro";
-      authBtn.innerText = isLogin ? "Entrar" : "Cadastrar";
-      toggleForm.innerText = isLogin ? "Não tem conta? Cadastre-se" : "Já tem conta? Fazer login";
-      loginMsg.innerText = "";
-    };
-
-    // Função para autenticar usuário
-    authBtn.onclick = () => {
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
-      loginMsg.innerText = "";
-
-      if (!email || !password) {
-        loginMsg.innerText = "Preencha todos os campos.";
-        return;
-      }
-
-      if (isLogin) {
-        auth.signInWithEmailAndPassword(email, password)
-          .catch(e => loginMsg.innerText = e.message);
-      } else {
-        auth.createUserWithEmailAndPassword(email, password)
-          .then(() => {
-            loginMsg.style.color = "#22c55e";
-            loginMsg.innerText = "Cadastro realizado! Agora faça login.";
-            isLogin = true;
-            formTitle.innerText = "Login";
-            authBtn.innerText = "Entrar";
-            toggleForm.innerText = "Não tem conta? Cadastre-se";
-          })
-          .catch(e => loginMsg.innerText = e.message);
-      }
-    };
-
-    // Atualiza UI quando o estado de login muda
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        loginSection.style.display = "none";
-        shopSection.style.display = "block";
-        topBar.style.display = "flex";
-        userEmail.textContent = user.email;
-        renderProducts();
-        renderCart();
-      } else {
-        loginSection.style.display = "block";
-        shopSection.style.display = "none";
-        topBar.style.display = "none";
-        cart = [];
-        discountApplied = 0;
-        couponInput.value = "";
-        couponMsg.innerText = "";
-      }
-    });
-
-    function logout() {
-      auth.signOut();
-    }
-
-    // Renderiza produtos na loja
-    function renderProducts() {
-      productsGrid.innerHTML = "";
-      products.forEach(p => {
-        const div = document.createElement("div");
-        div.className = "product-card";
-        div.innerHTML = `
-          <img src="${p.icon}" alt="${p.name}" />
-          <h3>${p.name}</h3>
-          <p>R$ ${p.price.toFixed(2)}</p>
-          <button onclick="addToCart(${p.id})">Adicionar ao Carrinho</button>
-        `;
-        productsGrid.appendChild(div);
-      });
-    }
-
-    // Adiciona produto ao carrinho
-    window.addToCart = function(productId) {
-      const product = products.find(p => p.id === productId);
-      if (!product) return;
-      const found = cart.find(i => i.id === productId);
-      if (found) {
-        found.qty++;
-      } else {
-        cart.push({...product, qty: 1});
-      }
-      renderCart();
-    };
-
-    // Remove produto do carrinho
-    window.removeFromCart = function(productId) {
-      cart = cart.filter(i => i.id !== productId);
-      renderCart();
-    };
-
-    // Renderiza o carrinho
-    function renderCart() {
-      cartItemsDiv.innerHTML = "";
-      if (cart.length === 0) {
-        cartItemsDiv.innerHTML = "<p>Carrinho vazio.</p>";
-        totalPriceP.innerText = "Total: R$ 0,00";
-        return;
-      }
-
-      let total = 0;
-      cart.forEach(item => {
-        const itemTotal = item.price * item.qty;
-        total += itemTotal;
-        const div = document.createElement("div");
-        div.className = "cart-item";
-        div.innerHTML = `
-          <span>${item.name} (x${item.qty}) - R$ ${(itemTotal).toFixed(2)}</span>
-          <button onclick="removeFromCart(${item.id})">Remover</button>
-        `;
-        cartItemsDiv.appendChild(div);
-      });
-
-      // Aplica desconto se cupom válido
-      if (discountApplied > 0) {
-        const discountValue = total * (discountApplied/100);
-        total = total - discountValue;
-        couponMsg.style.color = "#22c55e";
-        couponMsg.innerText = "Desconto de " + discountApplied + "% aplicado!";
-      } else {
-        couponMsg.innerText = "";
-      }
-
-      totalPriceP.innerText = "Total: R$ " + total.toFixed(2);
-    }
-
-    // Aplica cupom
-    applyCouponBtn.onclick = () => {
-      const code = couponInput.value.trim();
-      if (!code) {
-        couponMsg.style.color = "#ef4444";
-        couponMsg.innerText = "Digite um código de cupom.";
-        return;
-      }
-      if (code.toUpperCase() === validCoupon.code.toUpperCase()) {
-        const now = new Date();
-        if (now > validCoupon.expireAt) {
-          couponMsg.style.color = "#ef4444";
-          couponMsg.innerText = "Cupom expirado.";
-        } else {
-          discountApplied = validCoupon.discountPercent;
-          renderCart();
-        }
-      } else {
-        couponMsg.style.color = "#ef4444";
-        couponMsg.innerText = "Cupom inválido.";
-      }
-    };
-
-    // Finaliza compra e abre WhatsApp com resumo
-    checkoutBtn.onclick = () => {
-      if (cart.length === 0) {
-        alert("Seu carrinho está vazio!");
-        return;
-      }
-      const phone = "5565999468323"; // seu número WhatsApp
-      let msg = "Olá, quero comprar esses produtos:%0A";
-      let total = 0;
-
-      cart.forEach(item => {
-        const itemTotal = item.price * item.qty;
-        total += itemTotal;
-        msg += `- ${item.name} (x${item.qty}) - R$ ${(itemTotal).toFixed(2)}%0A`;
-      });
-
-      if (discountApplied > 0) {
-        const discountValue = total * (discountApplied/100);
-        total = total - discountValue;
-        msg += `%0ADesconto aplicado: ${discountApplied}%25%0A`;
-      }
-
-      msg += `%0ATotal: R$ ${total.toFixed(2)}`;
-
-      const url = `https://wa.me/${phone}?text=${msg}`;
-      window.open(url, "_blank");
-    };
-  </script>
-
-</body>
-</html>
+    margin-top: 24px;
+    color: #fbbf24;
