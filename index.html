@@ -1,296 +1,44 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Boost Media</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="https://img.icons8.com/color/96/netflix.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      color: #e2e8f0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    header {
-      background: #4f46e5;
-      padding: 30px 20px;
-      text-align: center;
-      color: white;
-      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.5);
-    }
-    header h1 {
-      margin: 0;
-      font-size: 2.7em;
-      letter-spacing: 2px;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.4);
-    }
-    header p {
-      margin-top: 8px;
-      font-size: 1.2em;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-    }
-    nav {
-      background: #1e293b;
-      padding: 15px 0;
-      text-align: center;
-      box-shadow: inset 0 -2px 4px rgba(255,255,255,0.05);
-      user-select: none;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    nav a {
-      color: #a5f3fc;
-      margin: 0 18px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.05em;
-      padding: 6px 10px;
-      border-radius: 8px;
-      transition: background-color 0.3s, color 0.3s;
-      cursor: pointer;
-      user-select: none;
-    }
-    nav a:hover {
-      background: #7c3aed;
-      color: #fff;
-      box-shadow: 0 2px 8px #7c3aedaa;
-    }
-    section {
-      padding: 40px 20px 60px;
-      max-width: 1080px;
-      margin: auto;
-      flex-grow: 1;
-    }
-    h2 {
-      color: #a5f3fc;
-      text-align: center;
-      font-weight: 700;
-      font-size: 2em;
-      letter-spacing: 1.5px;
-      margin-bottom: 30px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
-      gap: 24px;
-      margin-top: 20px;
-    }
-    .card {
-      background: #111827;
-      border-radius: 18px;
-      padding: 22px 20px 30px;
-      text-align: center;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.6);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      user-select: none;
-      cursor: pointer;
-      position: relative;
-    }
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 14px 30px rgba(79, 70, 229, 0.7);
-    }
-    .card img {
-      height: 68px;
-      margin-bottom: 15px;
-      filter: drop-shadow(0 0 3px rgba(0,0,0,0.3));
-    }
-    .card h3 {
-      margin: 10px 0 8px;
-      color: #fcd34d;
-      font-weight: 700;
-      font-size: 1.3em;
-      letter-spacing: 0.8px;
-      user-select: text;
-    }
-    .card p {
-      font-size: 1.1em;
-      margin-bottom: 14px;
-      font-weight: 600;
-      user-select: text;
-      color: #cbd5e1;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.4);
-    }
-    .card label {
-      cursor: pointer;
-      display: block;
-      user-select: none;
-    }
-    .card input[type="checkbox"] {
-      margin-right: 12px;
-      transform: scale(1.4);
-      vertical-align: middle;
-      cursor: pointer;
-    }
-    .btn {
-      background: #10b981;
-      color: white;
-      padding: 14px 26px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.2em;
-      display: inline-block;
-      cursor: pointer;
-      border: none;
-      box-shadow: 0 6px 14px #10b981aa;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
-      user-select: none;
-    }
-    .btn:hover {
-      background: #059669;
-      box-shadow: 0 8px 20px #059669cc;
-    }
-    footer {
-      background: #0f172a;
-      text-align: center;
-      padding: 24px 15px;
-      font-size: 0.95em;
-      color: #94a3b8;
-      margin-top: 40px;
-      box-shadow: inset 0 2px 4px #0008;
-      user-select: none;
-    }
-    .faq-item {
-      background: #1e293b;
-      border-radius: 14px;
-      padding: 20px 24px;
-      margin-bottom: 14px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.5);
-      font-size: 1.05em;
-      font-weight: 600;
-      color: #cbd5e1;
-      line-height: 1.4;
-      user-select: text;
-    }
-    .whatsapp-float {
-      position: fixed;
-      width: 64px;
-      height: 64px;
-      bottom: 22px;
-      right: 22px;
-      background-color: #25d366;
-      color: #fff;
-      border-radius: 50px;
-      text-align: center;
-      font-size: 34px;
-      z-index: 110;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
-      transition: box-shadow 0.3s ease;
-    }
-    .whatsapp-float:hover {
-      box-shadow: 0 8px 24px #25d366cc;
-    }
-    .whatsapp-float img {
-      margin-top: 16px;
-      width: 32px;
-      user-select: none;
-    }
-    #cupom-section {
-      max-width: 500px;
-      margin: 28px auto 12px;
-      text-align: center;
-    }
-    #cupom-section input[type="text"] {
-      width: 65%;
-      padding: 12px 15px;
-      border-radius: 12px 0 0 12px;
-      border: none;
-      font-size: 1.05em;
-      outline: none;
-      user-select: text;
-      font-weight: 600;
-    }
-    #cupom-section button {
-      width: 35%;
-      padding: 12px 0;
-      background: #7c3aed;
-      border: none;
-      border-radius: 0 12px 12px 0;
-      color: white;
-      font-weight: 700;
-      font-size: 1.05em;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      user-select: none;
-    }
-    #cupom-section button:hover {
-      background: #5b21b6;
-    }
-    #cupom-message {
-      margin-top: 12px;
-      font-weight: 700;
-      user-select: none;
-      height: 20px;
-    }
-    #finalizar-pedido {
-      margin: 22px auto 0;
-      display: block;
-      background: #4f46e5;
-      padding: 16px 30px;
-      border-radius: 14px;
-      font-size: 1.35em;
-      font-weight: 700;
-      color: white;
-      border: none;
-      cursor: pointer;
-      max-width: 320px;
-      user-select: none;
-      transition: background-color 0.3s ease;
-      box-shadow: 0 8px 24px #4f46e5bb;
-    }
-    #finalizar-pedido:hover {
-      background: #7c3aed;
-      box-shadow: 0 10px 30px #7c3aedcc;
-    }
+    body { font-family: Arial, sans-serif; background: #0f172a; color: white; margin: 0; padding: 0; }
+    header, nav, section, footer { padding: 20px; text-align: center; }
+    nav a { margin: 0 10px; color: #a5f3fc; text-decoration: none; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 20px; }
+    .card { background: #1e293b; padding: 20px; border-radius: 10px; }
+    .card input { margin-right: 10px; }
+    .faq-item { background: #1e293b; margin: 10px auto; padding: 10px; border-radius: 8px; width: 80%; text-align: left; }
+    .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background: #25d366; border-radius: 50%; width: 60px; height: 60px; text-align: center; line-height: 60px; }
+    #cupom-message { margin-top: 10px; font-weight: bold; }
   </style>
 </head>
 <body>
 
 <header>
   <h1>Boost Media</h1>
-  <p>Seu portal de contas premium com entrega rápida e preço justo!</p>
+  <p>Seu portal de contas premium!</p>
 </header>
 
 <nav>
   <a href="#produtos">Produtos</a>
-  <a href="#combos">Combos</a>
   <a href="#faq">FAQ</a>
 </nav>
 
 <section id="produtos">
-  <h2>📺 Produtos Individuais</h2>
+  <h2>Produtos</h2>
   <div class="grid">
-    <label class="card"><input type="checkbox" value="YouTube Premium (R$15,00/mês)" data-price="15"><img src="https://img.icons8.com/color/96/youtube-premium.png" alt="YouTube Premium"><h3>YouTube Premium</h3><p>R$15,00/mês</p></label>
-    <label class="card"><input type="checkbox" value="Netflix (R$20,00/mês)" data-price="20"><img src="https://img.icons8.com/color/96/netflix.png" alt="Netflix"><h3>Netflix</h3><p>R$20,00/mês</p></label>
-    <label class="card"><input type="checkbox" value="Prime Video (R$10,00/mês)" data-price="10"><img src="https://img.icons8.com/color/96/amazon-prime-video.png" alt="Prime Video"><h3>Prime Video</h3><p>R$10,00/mês</p></label>
-    <label class="card"><input type="checkbox" value="Disney+ (R$12,00/mês)" data-price="12"><img src="https://img.icons8.com/color/96/disney-plus.png" alt="Disney+"><h3>Disney+</h3><p>R$12,00/mês</p></label>
-    <label class="card"><input type="checkbox" value="HBO Max (R$15,00/mês)" data-price="15"><img src="https://img.icons8.com/color/96/hbo.png" alt="HBO Max"><h3>HBO Max</h3><p>R$15,00/mês</p></label>
-    <label class="card"><input type="checkbox" value="Paramount+ (R$10,00/mês)" data-price="10"><img src="https://img.icons8.com/color/96/paramount-plus.png" alt="Paramount+"><h3>Paramount+</h3><p>R$10,00/mês</p></label>
-    <label class="card"><input type="checkbox" value="Spotify Premium (R$50,00/ano)" data-price="50"><img src="https://img.icons8.com/color/96/spotify.png" alt="Spotify Premium"><h3>Spotify Premium</h3><p>R$50,00/ano</p></label>
-    <label class="card"><input type="checkbox" value="Youcine (R$15,00 único)" data-price="15"><img src="https://img.icons8.com/color/96/tv.png" alt="Youcine"><h3>Youcine</h3><p>R$15,00 único</p></label>
-  </div>
-</section>
-
-<section id="combos">
-  <h2>🔥 Combos Promocionais</h2>
-  <div class="grid">
-    <label class="card"><input type="checkbox" value="Combo Netflix + Spotify (R$29,90/mês)" data-price="29.90"><h3>Netflix + Spotify</h3><p>R$29,90/mês</p></label>
-    <label class="card"><input type="checkbox" value="Combo HBO + Prime Video (R$22,90/mês)" data-price="22.90"><h3>HBO + Prime Video</h3><p>R$22,90/mês</p></label>
-    <label class="card"><input type="checkbox" value="Combo Disney+ + YouTube Premium (R$25,00/mês)" data-price="25"><h3>Disney+ + YouTube Premium</h3><p>R$25,00/mês</p></label>
+    <label class="card"><input type="checkbox" value="Netflix" data-price="20">Netflix - R$20</label>
+    <label class="card"><input type="checkbox" value="HBO" data-price="15">HBO Max - R$15</label>
+    <label class="card"><input type="checkbox" value="Spotify" data-price="50">Spotify - R$50</label>
   </div>
 </section>
 
 <section id="cupom-section">
-  <input type="text" id="input-cupom" placeholder="Digite seu cupom de desconto" autocomplete="off" />
+  <input type="text" id="input-cupom" placeholder="Digite seu cupom">
   <button id="btn-aplicar-cupom">Aplicar Cupom</button>
   <div id="cupom-message"></div>
 </section>
@@ -298,18 +46,77 @@
 <button id="finalizar-pedido">Finalizar Pedido (R$ 0,00)</button>
 
 <section id="faq">
-  <h2>❓ Perguntas Frequentes (FAQ)</h2>
-  <div class="faq-item"><strong>🕐 Quando recebo minha conta?</strong><br>Imediatamente após o pagamento e envio do comprovante via WhatsApp.</div>
-  <div class="faq-item"><strong>👨‍👩‍👧 Posso dividir com alguém?</strong><br>Sim! Alguns serviços são familiares, outros são individuais. Verifique na descrição.</div>
-  <div class="faq-item"><strong>💳 Quais formas de pagamento?</strong><br>Apenas PIX. Envie o comprovante para ativação.</div>
-  <div class="faq-item"><strong>📱 Suporte funciona quando?</strong><br>Segunda a sábado, das 9h às 21h.</div>
+  <h2>Perguntas Frequentes</h2>
+  <div class="faq-item">🕐 Entrega após o pagamento.</div>
+  <div class="faq-item">💳 Pagamento via PIX.</div>
 </section>
 
 <footer>
-  <p>WhatsApp: (65) 99946-8323 • Email: boostmediapremium@gmail.com</p>
-  <p>&copy; 2025 Boost Media – Todos os direitos reservados.</p>
+  <p>WhatsApp: (65) 99946-8323</p>
 </footer>
 
-<a class="whatsapp-float" href="https://wa.me/5565999468323" target="_blank" rel="noopener">
-  <img src="https://img.icons8.com/color/48/whatsapp--v1.png" alt="WhatsApp"/>
-</
+<a class="whatsapp-float" href="https://wa.me/5565999468323" target="_blank">
+  <img src="https://img.icons8.com/color/48/whatsapp--v1.png" alt="WhatsApp" style="width:30px; margin-top:15px;"/>
+</a>
+
+<script>
+  const produtos = document.querySelectorAll('input[type="checkbox"]');
+  const finalizarBtn = document.getElementById('finalizar-pedido');
+  const cupomInput = document.getElementById('input-cupom');
+  const cupomMsg = document.getElementById('cupom-message');
+  const cupons = { "BOOST25": { desconto: 20, validade: new Date("2025-07-04T23:59:59") } };
+  let desconto = 0;
+
+  function calcularTotal() {
+    let total = 0;
+    produtos.forEach(p => {
+      if (p.checked) {
+        total += parseFloat(p.dataset.price);
+      }
+    });
+    if (desconto > 0) total *= (1 - desconto / 100);
+    return total.toFixed(2);
+  }
+
+  function atualizarBotao() {
+    finalizarBtn.textContent = `Finalizar Pedido (R$ ${calcularTotal()})`;
+  }
+
+  produtos.forEach(p => p.addEventListener('change', atualizarBotao));
+
+  document.getElementById('btn-aplicar-cupom').addEventListener('click', () => {
+    const codigo = cupomInput.value.trim().toUpperCase();
+    const cupom = cupons[codigo];
+    if (!cupom) {
+      cupomMsg.textContent = 'Cupom inválido.';
+      cupomMsg.style.color = 'red';
+      desconto = 0;
+    } else {
+      const agora = new Date();
+      if (agora > cupom.validade) {
+        cupomMsg.textContent = 'Cupom expirado.';
+        cupomMsg.style.color = 'orange';
+        desconto = 0;
+      } else {
+        desconto = cupom.desconto;
+        cupomMsg.textContent = `Cupom aplicado: ${desconto}% OFF`;
+        cupomMsg.style.color = 'green';
+      }
+    }
+    atualizarBotao();
+  });
+
+  finalizarBtn.addEventListener('click', () => {
+    let itens = [];
+    produtos.forEach(p => {
+      if (p.checked) itens.push(p.value);
+    });
+    if (itens.length === 0) return alert('Selecione ao menos um produto.');
+    const total = calcularTotal();
+    const msg = `Olá, quero comprar:\n- ${itens.join("\n- ")}\nTotal com desconto: R$ ${total}`;
+    window.open(`https://wa.me/5565999468323?text=${encodeURIComponent(msg)}`);
+  });
+</script>
+
+</body>
+</html>
